@@ -23,6 +23,7 @@ solution.
 1. do we support iterators and iterables like `Iterator.from` and `flatMap`?
     1. if so, which string handling do we match?
 1. if an iterator completes, do we still advance the other iterators?
+    1. do we `return` them?
 1. if an iterator fails to advance, do we still advance the other iterators?
     1. if so, do we return an AggregateError? Only if 2+ failures?
 1. do we want `-With` variants for combining the values in other ways than tupling?
