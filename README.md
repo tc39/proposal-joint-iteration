@@ -45,7 +45,7 @@ solution.
 | Python   | `zip`           | `itertools.zip_longest` |                  | `zip(..., strict=True)` |             | yes        | yes      | yes, empty |
 | Ruby     |                 |                         | `Enumerable#zip` |                         | `zip`       | yes        | yes      |            |
 | Rust     | `Iterator::zip` |                         |                  |                         |             |            |          |            |
-| Scala    |                 | `it.zipAll(jt, x, y)`   |                  |                         |             |            |          |            |
+| Scala    | `zip`           | `it.zipAll(jt, x, y)`   |                  |                         |             |            |          |            |
 | Swift    | `zip`           |                         |                  |                         |             |            |          |            |
 
 ### JS libraries
@@ -56,8 +56,12 @@ solution.
 | @softwareventures/iterator | `zipOnce`  |                           |            |            |           |            |          |            |
 | extra-iterable             | `zip`      | `zip`                     |            |            | `zip`     | yes        | yes      | yes, empty |
 | immutable.js               | `Seq::zip` |                           |            |            | `zipWith` | yes        | yes      |            |
+| iter-ops                   | `zip`      |                           |            |            |           | yes        | yes      | yes, empty |
+| iter-tools                 | `zip`      | `zipAll`                  |            |            |           | yes        | yes      | yes, empty |
 | iterablefu                 | `zip`      | `zipAll`                  |            |            |           | yes        | yes      | yes, empty |
+| iterare                    | `zip`      |                           |            |            |           |            |          |            |
 | itertools-ts               | `zip`      | `zipFilled`, `zipLongest` |            | `zipEqual` |           | yes        | yes      | yes, empty |
+| ixjs                       | `zip`      |                           |            |            |           | yes        | yes      | yes, empty |
 | lodash                     |            | `zip`                     |            |            | `zipWith` | yes        | yes      | yes, empty |
 | ramda                      | `zip`      |                           |            |            | `zipWith` |            |          |            |
 | wu                         | `zip`      | `zipLongest`              |            |            | `zipWith` | yes        | yes      |            |
