@@ -21,7 +21,7 @@ solution.
     1. do we take the iterators as varargs or as an iterable/object?
         1. varargs eliminates design space for potentially passing an options bag or a combining function
 1. do we support iterators and iterables like `Iterator.from` and `flatMap`?
-    1. if so, which string handling do we match?
+    1. if so, which string handling do we match? `Iterator.from` iterates strings; `flatMap` rejects strings
 1. if an iterator completes, do we still advance the other iterators?
     1. do we `return` them?
 1. if an iterator fails to advance, do we still advance the other iterators?
