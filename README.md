@@ -7,11 +7,13 @@ A TC39 proposal to synchronise the advancement of multiple iterators.
 
 ## motivation
 
-Often you have 2 or more iterators that are positionally aligned. The first
+Often you have 2 or more iterators that are positionally aligned (the first
 value yielded by the first iterator corresponds to the first value yielded by
-the other iterators, and so on. A common solution to this is `zip`, which
-produces an iterator of the combined values. A variadic `map` is another common
-solution.
+the other iterators, and so on), and you would like to operate on the
+corresponding values together. A common solution to this is `zip`, which
+produces an iterator of the combined values. `zipWith` allows combination of
+values in some way other than tupling. Some languages express `zipWith` as a
+variadic `map`.
 
 ## design space
 
