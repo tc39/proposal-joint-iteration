@@ -3,7 +3,7 @@ Joint Iteration
 
 A TC39 proposal to synchronise the advancement of multiple iterators.
 
-**Stage:** 0
+**Stage:** 1
 
 ## motivation
 
