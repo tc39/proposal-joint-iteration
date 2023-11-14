@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "proposal-joint-iteration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tc39/proposal-joint-iteration.git"
+  },
+  "author": "Michael Ficarra",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-joint-iteration/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-joint-iteration#readme",
+  "devDependencies": {
+    "typescript": "5.2.2"
+  }
+}
