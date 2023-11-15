@@ -85,7 +85,7 @@ function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Array<{ done
     try {
       let v = next.call(iters[i]);
       return v.done ? { done: true } : { done: false, value: v.value };
-    } finally {
+    } catch (e) {
       for (let k = 0; k < nexts.length; ++k) {
         if (k === i) continue;
         try {
@@ -94,13 +94,26 @@ function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Array<{ done
           }
         } catch {}
       }
+      throw e;
     }
   });
 }
 
 // TODO: consider whether we want to look up the `.next` properties before we read from the `fillers` option
 function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', fillers: Array<unknown>) {
-  let nexts: Nexts = iters.map(i => ({ done: false, next: i.next })); // TODO handle closing 
+  let nexts: Nexts = iters.map((iter, i) => {
+    try {
+      return ({ done: false, next: iter.next });
+    } catch (e) {
+      for (let k = 0; k < iters.length; ++k) {
+        if (k === i) continue;
+        try {
+          iters[k]!.return?.();
+        } catch {}
+      }
+      throw e;
+    }
+  });
   while (true) {
     let results = getResults(iters, nexts);
     results.forEach((r, i) => {
@@ -142,12 +155,13 @@ function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' |
         fillers = Array.from(tmp);
       }
     }
-  } finally {
+  } catch (e) {
     for (let iter of iters) {
       try {
         iter.return?.();
       } catch {}
     }
+    throw e;
   }
   yield* zipCore(iters, mode, fillers);
 }
@@ -166,12 +180,13 @@ function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', optio
         fillers = keys.map(k => tmp![k]);
       }
     }
-  } finally {
+  } catch (e) {
     for (let iter of iters) {
       try {
         iter.return?.();
       } catch {}
     }
+    throw e;
   }
   for (let result of zipCore(iters, mode, fillers)) {
     yield Object.fromEntries(result.map((r, i) => [keys[i], r]));
