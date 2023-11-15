@@ -64,12 +64,13 @@ function* zip(input: unknown, options?: unknown): IterableIterator<Array<unknown
   if (!isObject(options)) {
     throw new TypeError;
   }
+  let longest = (options as ZipOptions<never>).longest;
+  let strict = (options as ZipOptions<never>).strict;
+  if (longest && strict) {
+    throw new TypeError;
+  }
   let mode: 'shortest' | 'longest' | 'strict' =
-    (options as ZipOptions<never>).longest
-      ? 'longest'
-      : (options as ZipOptions<never>).strict
-        ? 'strict'
-        : 'shortest';
+    longest ? 'longest' : (strict ? 'strict' : 'shortest');
   if (Symbol.iterator in input) {
     yield* zipPositional(input as Iterable<unknown>, mode, options);
   } else {
