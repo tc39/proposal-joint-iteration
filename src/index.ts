@@ -77,7 +77,7 @@ function* zip(input: unknown, options?: unknown): IterableIterator<Array<unknown
   }
 }
 
-function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
+function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown>> {
   let iters = Array.from(input, o => getIteratorFlattenable(o, 'iterate-strings'));
   let nexts: Array<{ done: false, next: () => { done?: boolean, value?: unknown } } | { done: true, next?: void }> =
     iters.map(i => ({ done: false, next: i.next }));
@@ -115,7 +115,7 @@ function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' |
   }
 }
 
-function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
+function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<{ [k: PropertyKey]: unknown }> {
   let keys = getOwnEnumerablePropertyKeys(input);
   let iters = keys.map(k => getIteratorFlattenable(input[k], 'iterate-strings'));
   let nexts: Array<{ done: false, next: () => { done?: boolean, value?: unknown } } | { done: true, next?: void }> =
