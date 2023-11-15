@@ -71,49 +71,51 @@ function* zip(input: unknown, options?: unknown): IterableIterator<Array<unknown
         ? 'strict'
         : 'shortest';
   if (Symbol.iterator in input) {
-    let iters = Array.from(input as Iterable<unknown>, o => getIteratorFlattenable(o, 'iterate-strings'));
-    let nexts: Array<{ done: false, next: () => { done?: boolean, value?: unknown } } | { done: true, next?: void }> =
-      iters.map(i => ({ done: false, next: i.next }));
-    let fillers: unknown[] = nexts.map(() => DEFAULT_FILLER);
-    if (mode === 'longest') {
-      let tmp = (options as ZipLongestOptions<Iterable<unknown>>).fillers;
-      if (tmp != null) {
-        fillers = Array.from(tmp);
-      }
-    }
-    loop: while (true) {
-      let results = nexts.map(({ done, next }, i) => done ? { done: true } : next.call(iters[i]));
-      results.forEach((r, i) => {
-        if (r.done) {
-          nexts[i] = { done: true };
-        }
-      });
-      switch (mode) {
-        case 'shortest':
-          if (results.some(r => r.done)) {
-            break loop;
-          }
-          yield results.map(r => r.value);
-          break;
-        case 'longest':
-          if (results.every(r => r.done)) {
-            break loop;
-          }
-          yield results.map((r, i) => r.done ? fillers[i] : r.value);
-          break;
-        case 'strict':
-          if (results.every(r => r.done)) {
-            break loop;
-          }
-          if (results.some(r => r.done)) {
-            throw new RangeError;
-          }
-          yield results.map(r => r.value);
-          break;
-      }
-    }
-    return;
+    yield* zipPositional(input as Iterable<unknown>, mode, options);
+  } else {
+    yield* zipNamed(input, mode, options);
   }
+}
+
+function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
+  let iters = Array.from(input, o => getIteratorFlattenable(o, 'iterate-strings'));
+  let nexts: Array<{ done: false, next: () => { done?: boolean, value?: unknown } } | { done: true, next?: void }> =
+    iters.map(i => ({ done: false, next: i.next }));
+  let fillers: unknown[] = nexts.map(() => DEFAULT_FILLER);
+  if (mode === 'longest') {
+    let tmp = (options as ZipLongestOptions<Iterable<unknown>>).fillers;
+    if (tmp != null) {
+      fillers = Array.from(tmp);
+    }
+  }
+  while (true) {
+    let results = nexts.map(({ done, next }, i) => done ? { done: true } : next.call(iters[i]));
+    results.forEach((r, i) => {
+      if (r.done) {
+        nexts[i] = { done: true };
+      }
+    });
+    switch (mode) {
+      case 'shortest':
+        if (results.some(r => r.done)) return;
+        yield results.map(r => r.value);
+        break;
+      case 'longest':
+        if (results.every(r => r.done)) return;
+        yield results.map((r, i) => r.done ? fillers[i] : r.value);
+        break;
+      case 'strict':
+        if (results.every(r => r.done)) return;
+        if (results.some(r => r.done)) {
+          throw new RangeError;
+        }
+        yield results.map(r => r.value);
+        break;
+    }
+  }
+}
+
+function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
   let keys = getOwnEnumerablePropertyKeys(input);
   let iters = keys.map(k => getIteratorFlattenable(input[k], 'iterate-strings'));
   let nexts: Array<{ done: false, next: () => { done?: boolean, value?: unknown } } | { done: true, next?: void }> =
@@ -125,7 +127,7 @@ function* zip(input: unknown, options?: unknown): IterableIterator<Array<unknown
       fillers = keys.map(k => tmp![k]);
     }
   }
-  loop: while (true) {
+  while (true) {
     let results = nexts.map(({ done, next }, i) => done ? { done: true } : next.call(iters[i]));
     results.forEach((r, i) => {
       if (r.done) {
@@ -134,21 +136,15 @@ function* zip(input: unknown, options?: unknown): IterableIterator<Array<unknown
     });
     switch (mode) {
       case 'shortest':
-        if (results.some(r => r.done)) {
-          break loop;
-        }
+        if (results.some(r => r.done)) return;
         yield Object.fromEntries(zip([keys, results.map(r => r.value)]));
         break;
       case 'longest':
-        if (results.every(r => r.done)) {
-          break loop;
-        }
+        if (results.every(r => r.done)) return;
         yield Object.fromEntries(results.map((r, i) => [keys[i], r.done ? fillers[i] : r.value]));
         break;
       case 'strict':
-        if (results.every(r => r.done)) {
-          break loop;
-        }
+        if (results.every(r => r.done)) return;
         if (results.some(r => r.done)) {
           throw new RangeError;
         }
