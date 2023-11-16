@@ -102,6 +102,7 @@ function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Array<{ done
 
 // TODO: consider whether we want to look up the `.next` properties before we read from the `fillers` option
 function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', fillers: Array<unknown>) {
+  if (iters.length === 0) return;
   let nexts: Nexts = iters.map((iter, i) => {
     try {
       return ({ done: false, next: iter.next });
