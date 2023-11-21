@@ -195,7 +195,7 @@ function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', optio
   }
 }
 
-const zip = (input: any, options: any) => zipImpl(input, options);
+const zip = (input: any, options: any = undefined) => zipImpl(input, options);
 
 Object.defineProperty(Iterator, 'zip', {
   configurable: true,
