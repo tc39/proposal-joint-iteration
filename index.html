@@ -2,11 +2,24 @@
   <head>
     <title></title>
     <script src="lib/index.js"></script>
+    <style>
+      html {
+        background-color: white;
+        color: #444;
+      }
+      pre {
+        border-radius: 8px;
+        background-color: #ddd;
+        color: #000;
+        width: fit-content;
+        padding: 6px;
+      }
+    </style>
   </head>
   <body>
     <h1>Join Iteration</h1>
     <p>This proposal is at Stage 1 of the TC39 process.</p>
-    <p>Open the console to try it out.</p>
+    <p>Open the console to try it out. Here are some examples:</p>
     <pre><code>Array.from(Iterator.zip([
   [0, 1, 2],
   [3, 4, 5],
