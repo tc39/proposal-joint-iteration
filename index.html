@@ -4,5 +4,25 @@
     <script src="lib/index.js"></script>
   </head>
   <body>
+    <h1>Join Iteration</h1>
+    <p>This proposal is at Stage 1 of the TC39 process.</p>
+    <p>Open the console to try it out.</p>
+    <pre><code>Array.from(Iterator.zip([
+  [0, 1, 2],
+  [3, 4, 5],
+]))</code></pre>
+    <pre><code>Array.from(Iterator.zip({
+  a: [0, 1, 2],
+  b: [3, 4, 5, 6],
+  c: [7, 8, 9],
+}))</code></pre>
+    <pre><code>Array.from(Iterator.zip({
+  a: [0, 1, 2],
+  b: [3, 4, 5, 6],
+  c: [7, 8, 9],
+}, {
+  longest: true,
+  fillers: { c: 10 },
+}))</code></pre>
   </body>
 </html>
