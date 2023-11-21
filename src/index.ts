@@ -58,6 +58,7 @@ function* zipImpl(input: unknown, options?: unknown): IterableIterator<Array<unk
   if (!isObject(input)) {
     throw new TypeError;
   }
+  // TODO: null/undefined or just undefined?
   if (options == null) {
     options = Object.create(null);
   }
