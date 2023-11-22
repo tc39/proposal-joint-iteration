@@ -196,6 +196,7 @@ function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', optio
   }
 }
 
+// NOTE: this line makes zip non-constructible, and gives it the appropriate name and length
 const zip = (input: any, options: any = undefined) => zipImpl(input, options);
 
 Object.defineProperty(Iterator, 'zip', {
