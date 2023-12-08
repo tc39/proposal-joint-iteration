@@ -15,7 +15,11 @@ produces an iterator of the combined values. `zipWith` allows combination of
 values in some way other than tupling. Some languages express `zipWith` as a
 variadic `map`.
 
-## design space
+## chosen solution
+
+See the [November 2023 presentation to committee](https://docs.google.com/presentation/d/1sgqXgWBsDF0S43wVuFgIyOC8Y3AMFt1qxBIFbzEq9Vg/edit#slide=id.g29bcb679a87_0_45).
+
+## considered design space
 
 1. do we support just 2 iterators or something else? 2+? 1+? 0+?
     1. if 0 is allowed, is that considered never-ending or already completed?
