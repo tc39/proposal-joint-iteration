@@ -124,7 +124,7 @@ copyright: false
                 1. Remove _iters_[_i_] from _openIters_.
                 1. Return ? IteratorCloseAll(_openIters_, _result_).
               1. Set _result_ to _result_.[[Value]].
-          1. Set _results_[_i_] to _result_.
+          1. Append _result_ to _results_.
         1. Set _results_ to _finishResults_(_results_).
         1. Let _completion_ be Completion(Yield(_results_)).
         1. If _completion_ is an abrupt completion, then
