@@ -5,6 +5,10 @@ A TC39 proposal to synchronise the advancement of multiple iterators.
 
 **Stage:** 1
 
+**Demo:** https://tc39.es/proposal-joint-iteration/demo/
+
+**Specification:** https://tc39.es/proposal-joint-iteration/
+
 ## motivation
 
 Often you have 2 or more iterators that are positionally aligned (the first
