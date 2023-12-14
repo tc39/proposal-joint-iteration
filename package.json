@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "spec": "ecmarkup --mark-effects --load-biblio @tc39/ecma262-biblio --load-biblio ./proposal-iterator-helpers-biblio.json --write-biblio biblio.json --lint-spec --strict spec.emu spec.html",
+    "spec": "ecmarkup --mark-effects --load-biblio @tc39/ecma262-biblio --load-biblio ./proposal-iterator-helpers-biblio.json --write-biblio biblio.json --lint-spec --strict spec.emu --assets-dir dist dist/index.html",
     "test": "node --test test"
   },
   "repository": {
