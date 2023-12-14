@@ -116,6 +116,7 @@ copyright: false
                   1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
                 1. Set _observedStrictEnding_ to *true*.
               1. Else,
+                1. Assert: _mode_ is ~longest~.
                 1. Set _iters_[_i_] to *null*.
                 1. Set _result_ to _fillers_[_i_].
             1. Else,
