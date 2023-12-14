@@ -44,13 +44,13 @@ copyright: false
       1. Let _iterCount_ be the number of elements in _iters_.
       1. If _mode_ is ~longest~, then
         1. If _fillersOption_ is *undefined*, then
-          1. Repeat _iterCount_ times:
+          1. Perform the following steps _iterCount_ times:
             1. Append *undefined* to _fillers_.
         1. Else,
           1. Let _fillersIter_ be Completion(GetIteratorFlattenable(_fillersOption_, ~iterate-strings~)).
           1. IfAbruptCloseIterators(_fillersIter_, _openIters_).
           1. Let _usingIterator_ be *true*.
-          1. Repeat _iterCount_ times:
+          1. Perform the following steps _iterCount_ times:
             1. If _usingIterator_ is *true*, then
               1. Set _next_ to Completion(IteratorStep(_fillersIter_)).
               1. IfAbruptCloseIterators(_openIters_).
@@ -82,7 +82,7 @@ copyright: false
       1. Let _iterCount_ be the number of elements in _iters_.
       1. If _mode_ is ~longest~, then
         1. If _fillersOption_ is *undefined*, then
-          1. Repeat _iterCount_ times:
+          1. Perform the following steps _iterCount_ times:
             1. Append *undefined* to _fillers_.
         1. Else,
           1. For each element _key_ of _keys_, do
