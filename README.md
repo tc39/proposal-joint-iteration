@@ -52,7 +52,7 @@ See the [November 2023 presentation to committee](https://docs.google.com/presen
 | Clojure  | variadic `map`  |                         |                  |                         | yes         | yes        | yes      |            |
 | Elm      |                 |                         |                  |                         | `List.map2` | yes        | yes      |            |
 | Haskell  | `zip`           |                         |                  |                         | `zipWith`   | yes        |          |            |
-| OCaml    | `zip`           |                         |                  |                         | `map2`      |            | yes      |            |
+| OCaml    | `zip`           |                         |                  | `combine`               | `map2`      |            | yes      |            |
 | Python   | `zip`           | `itertools.zip_longest` |                  | `zip(..., strict=True)` |             | yes        | yes      | yes, empty |
 | Ruby     |                 |                         | `Enumerable#zip` |                         | `zip`       | yes        | yes      |            |
 | Rust     | `Iterator::zip` |                         |                  |                         |             |            |          |            |
