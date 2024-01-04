@@ -29,18 +29,16 @@ copyright: false
     1. Let _fillers_ be a new empty List.
     1. If ? HasProperty(_iterables_, %Symbol.iterator%) is *true*, then
       1. Let _inputIter_ be ? GetIterator(_iterables_, ~sync~).
-      1. Append _inputIter_ to _openIters_.
       1. Let _next_ be ? IteratorStep(_inputIter_).
       1. Repeat, while _next_ is not *false*,
         1. Let _value_ be Completion(IteratorValue(_next_)).
         1. IfAbruptCloseIterators(_value_, _openIters_).
         1. Let _iter_ be Completion(GetIteratorFlattenable(_value_, ~iterate-strings~)).
-        1. IfAbruptCloseIterators(_iter_, _openIters_).
+        1. IfAbruptCloseIterators(_iter_, the list-concatenation of « _inputIter_ » and _openIters_).
         1. Append _iter_ to _iters_.
         1. Append _iter_ to _openIters_.
         1. Set _next_ to Completion(IteratorStep(_inputIter_)).
         1. IfAbruptCloseIterators(_next_, _openIters_).
-      1. Remove _inputIter_ from _openIters_.
       1. Let _iterCount_ be the number of elements in _iters_.
       1. If _mode_ is ~longest~, then
         1. If _fillersOption_ is *undefined*, then
