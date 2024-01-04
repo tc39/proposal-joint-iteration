@@ -70,7 +70,7 @@ function getResults(iters, nexts) {
         }
     });
 }
-function* zipCore(iters, mode, fillers) {
+function* zipCore(iters, mode, padding) {
     if (iters.length === 0)
         return;
     let nexts = iters.map((iter, i) => {
@@ -105,7 +105,7 @@ function* zipCore(iters, mode, fillers) {
             case 'longest':
                 if (results.every(r => r.done))
                     return;
-                yield results.map((r, i) => r.done ? fillers[i] : r.value);
+                yield results.map((r, i) => r.done ? padding[i] : r.value);
                 break;
             case 'strict':
                 if (results.every(r => r.done))
@@ -120,16 +120,16 @@ function* zipCore(iters, mode, fillers) {
 }
 function* zipPositional(input, mode, options) {
     let iters = [];
-    let fillers;
+    let padding;
     try {
         for (let iter of input) {
             iters.push(getIteratorFlattenable(iter, 'iterate-strings'));
         }
-        fillers = iters.map(() => DEFAULT_FILLER);
+        padding = iters.map(() => DEFAULT_FILLER);
         if (mode === 'longest') {
-            let tmp = options.fillers;
+            let tmp = options.padding;
             if (tmp != null) {
-                fillers = Array.from(tmp);
+                padding = Array.from(tmp);
             }
         }
     }
@@ -142,20 +142,20 @@ function* zipPositional(input, mode, options) {
         }
         throw e;
     }
-    yield* zipCore(iters, mode, fillers);
+    yield* zipCore(iters, mode, padding);
 }
 function* zipNamed(input, mode, options) {
     let keys = getOwnEnumerablePropertyKeys(input);
-    let fillers = keys.map(() => DEFAULT_FILLER);
+    let padding = keys.map(() => DEFAULT_FILLER);
     let iters = [];
     try {
         for (let k of keys) {
             iters.push(getIteratorFlattenable(input[k], 'iterate-strings'));
         }
         if (mode === 'longest') {
-            let tmp = options.fillers;
+            let tmp = options.padding;
             if (tmp != null) {
-                fillers = keys.map(k => tmp[k]);
+                padding = keys.map(k => tmp[k]);
             }
         }
     }
@@ -168,7 +168,7 @@ function* zipNamed(input, mode, options) {
         }
         throw e;
     }
-    for (let result of zipCore(iters, mode, fillers)) {
+    for (let result of zipCore(iters, mode, padding)) {
         yield Object.fromEntries(result.map((r, i) => [keys[i], r]));
     }
 }

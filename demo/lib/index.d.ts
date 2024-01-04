@@ -10,7 +10,7 @@ interface ZipShortestOptions {
 interface ZipLongestOptions<F> {
     longest: true;
     strict?: false;
-    fillers?: F;
+    padding?: F;
 }
 interface ZipStrictOptions {
     longest?: false;
@@ -50,7 +50,7 @@ declare function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Arra
     done: false;
     value: unknown;
 }>;
-declare function zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', fillers: Array<unknown>): Generator<unknown[], void, unknown>;
+declare function zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', padding: Array<unknown>): Generator<unknown[], void, unknown>;
 declare function zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown>>;
 declare function zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<{
     [k: PropertyKey]: unknown;
