@@ -150,8 +150,7 @@ copyright: false
     <dd>TODO</dd>
   </dl>
   <emu-alg>
-    1. TODO: should this be in reverse order?.
-    1. For each element _iter_ of _iters_, do
+    1. For each element _iter_ of _iters_, in reverse List order, do
       1. Set _completion_ to Completion(IteratorClose(_iter_, _completion_)).
     1. Return ? _completion_.
   </emu-alg>
