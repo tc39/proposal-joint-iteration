@@ -71,14 +71,23 @@ copyright: false
       1. Let _keys_ be a new empty List.
       1. For each element _key_ of _allKeys_, do
         1. Let _desc_ be ? _iterables_.[[GetOwnProperty]](_key_).
-        1. If _desc_ is not *undefined* and _desc_.[[Enumerable]] is *true*, append _key_ to _keys_.
-      1. For each element _key_ of _keys_, do
-        1. Let _value_ be Completion(Get(_iterables_, _key_)).
-        1. IfAbruptCloseIterators(_value_, _openIters_).
-        1. Let _iter_ be Completion(GetIteratorFlattenable(_value_, ~iterate-strings~)).
-        1. IfAbruptCloseIterators(_iter_, _openIters_).
-        1. Append _iter_ to _iters_.
-        1. Append _iter_ to _openIters_.
+        1. If _desc_ is not *undefined* and _desc_.[[Enumerable]] is *true*, then
+          1. Let _value_ be *undefined*.
+          1. If IsDataDescriptor(_desc_) is *true*, then
+            1. Set _value_ to _desc_.[[Value]].
+          1. Else,
+            1. Assert: IsAccessorDescriptor(_desc_) is *true*.
+            1. Let _getter_ be _desc_.[[Get]].
+            1. If _getter_ is not *undefined*, then
+              1. Let _getterResult_ be Completion(Call(_getter_, _iterables_)).
+              1. IfAbruptCloseIterators(_getterResult_, _openIters_).
+              1. Set _value_ to _getterResult_.
+          1. If _value_ is not *undefined*, then
+            1. Append _key_ to _keys_.
+            1. Let _iter_ be Completion(GetIteratorFlattenable(_value_, ~iterate-strings~)).
+            1. IfAbruptCloseIterators(_iter_, _openIters_).
+            1. Append _iter_ to _iters_.
+            1. Append _iter_ to _openIters_.
       1. Let _iterCount_ be the number of elements in _iters_.
       1. If _mode_ is ~longest~, then
         1. If _fillersOption_ is *undefined*, then
