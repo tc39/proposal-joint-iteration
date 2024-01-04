@@ -98,17 +98,17 @@ test('basic named', async t => {
   });
 });
 
-test('fillers', async t => {
+test('padding', async t => {
   await t.test('positional', () => {
-    const fillers = [{}, {}, {}, {}];
+    const padding = [{}, {}, {}, {}];
 
     assert.deepEqual(Array.from(Iterator.zip([
       [0],
       [1, 2, 3],
-    ], { longest: true, fillers })), [
+    ], { longest: true, padding })), [
       [0, 1],
-      [fillers[0], 2],
-      [fillers[0], 3],
+      [padding[0], 2],
+      [padding[0], 3],
     ]);
 
     assert.deepEqual(Array.from(Iterator.zip([
@@ -116,33 +116,33 @@ test('fillers', async t => {
       [1, 2, 3],
       [4, 5],
       [],
-    ], { longest: true, fillers })), [
-      [0, 1, 4, fillers[3]],
-      [fillers[0], 2, 5, fillers[3]],
-      [fillers[0], 3, fillers[2], fillers[3]],
+    ], { longest: true, padding })), [
+      [0, 1, 4, padding[3]],
+      [padding[0], 2, 5, padding[3]],
+      [padding[0], 3, padding[2], padding[3]],
     ]);
   });
 
   await t.test('named', () => {
-    const A_FILLER = {};
-    const B_FILLER = {};
-    const C_FILLER = {};
-    const D_FILLER = {};
+    const A_PADDING = {};
+    const B_PADDING = {};
+    const C_PADDING = {};
+    const D_PADDING = {};
 
-    const fillers = {
-      a: A_FILLER,
-      b: B_FILLER,
-      c: C_FILLER,
-      d: D_FILLER
+    const padding = {
+      a: A_PADDING,
+      b: B_PADDING,
+      c: C_PADDING,
+      d: D_PADDING
     };
 
     assert.deepEqual(Array.from(Iterator.zip({
       a: [0],
       b: [1, 2, 3],
-    }, { longest: true, fillers })), [
+    }, { longest: true, padding })), [
       { a: 0, b: 1 },
-      { a: A_FILLER, b: 2 },
-      { a: A_FILLER, b: 3 },
+      { a: A_PADDING, b: 2 },
+      { a: A_PADDING, b: 3 },
     ]);
 
     assert.deepEqual(Array.from(Iterator.zip({
@@ -150,10 +150,10 @@ test('fillers', async t => {
       b: [1, 2, 3],
       c: [4, 5],
       d: [],
-    }, { longest: true, fillers })), [
-      { a: 0, b: 1, c: 4, d: D_FILLER },
-      { a: A_FILLER, b: 2, c: 5, d: D_FILLER },
-      { a: A_FILLER, b: 3, c: C_FILLER, d: D_FILLER },
+    }, { longest: true, padding })), [
+      { a: 0, b: 1, c: 4, d: D_PADDING },
+      { a: A_PADDING, b: 2, c: 5, d: D_PADDING },
+      { a: A_PADDING, b: 3, c: C_PADDING, d: D_PADDING },
     ]);
   });
 });

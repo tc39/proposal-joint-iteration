@@ -36,7 +36,7 @@ interface ZipShortestOptions {
 interface ZipLongestOptions<F> {
   longest: true,
   strict?: false,
-  fillers?: F,
+  padding?: F,
 }
 interface ZipStrictOptions {
   longest?: false,
@@ -100,8 +100,8 @@ function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Array<{ done
   });
 }
 
-// TODO: consider whether we want to look up the `.next` properties before we read from the `fillers` option
-function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', fillers: Array<unknown>) {
+// TODO: consider whether we want to look up the `.next` properties before we read from the `padding` option
+function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', padding: Array<unknown>) {
   if (iters.length === 0) return;
   let nexts: Nexts = iters.map((iter, i) => {
     try {
@@ -130,7 +130,7 @@ function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' 
         break;
       case 'longest':
         if (results.every(r => r.done)) return;
-        yield results.map((r, i) => r.done ? fillers[i] : r.value);
+        yield results.map((r, i) => r.done ? padding[i] : r.value);
         break;
       case 'strict':
         if (results.every(r => r.done)) return;
@@ -145,16 +145,16 @@ function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' 
 
 function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown>> {
   let iters: Array<Iterator<unknown>> = [];
-  let fillers: unknown[];
+  let padding: unknown[];
   try {
     for (let iter of input) {
       iters.push(getIteratorFlattenable(iter, 'iterate-strings'));
     }
-    fillers = iters.map(() => DEFAULT_FILLER);
+    padding = iters.map(() => DEFAULT_FILLER);
     if (mode === 'longest') {
-      let tmp = (options as ZipLongestOptions<Iterable<unknown>>).fillers;
+      let tmp = (options as ZipLongestOptions<Iterable<unknown>>).padding;
       if (tmp != null) {
-        fillers = Array.from(tmp);
+        padding = Array.from(tmp);
       }
     }
   } catch (e) {
@@ -165,21 +165,21 @@ function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' |
     }
     throw e;
   }
-  yield* zipCore(iters, mode, fillers);
+  yield* zipCore(iters, mode, padding);
 }
 
 function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<{ [k: PropertyKey]: unknown }> {
   let keys = getOwnEnumerablePropertyKeys(input);
-  let fillers: Array<unknown> = keys.map(() => DEFAULT_FILLER);
+  let padding: Array<unknown> = keys.map(() => DEFAULT_FILLER);
   let iters: Array<Iterator<unknown>> = [];
   try {
     for (let k of keys) {
       iters.push(getIteratorFlattenable(input[k], 'iterate-strings'));
     }
     if (mode === 'longest') {
-      let tmp = (options as ZipLongestOptions<{ [k: PropertyKey]: unknown }>).fillers;
+      let tmp = (options as ZipLongestOptions<{ [k: PropertyKey]: unknown }>).padding;
       if (tmp != null) {
-        fillers = keys.map(k => tmp![k]);
+        padding = keys.map(k => tmp![k]);
       }
     }
   } catch (e) {
@@ -190,7 +190,7 @@ function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', optio
     }
     throw e;
   }
-  for (let result of zipCore(iters, mode, fillers)) {
+  for (let result of zipCore(iters, mode, padding)) {
     yield Object.fromEntries(result.map((r, i) => [keys[i], r]));
   }
 }
