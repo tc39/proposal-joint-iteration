@@ -47,7 +47,7 @@ copyright: false
           1. Perform the following steps _iterCount_ times:
             1. Append *undefined* to _fillers_.
         1. Else,
-          1. Let _fillersIter_ be Completion(GetIteratorFlattenable(_fillersOption_, ~iterate-strings~)).
+          1. Let _fillersIter_ be Completion(GetIterator(_fillersOption_, ~sync~)).
           1. IfAbruptCloseIterators(_fillersIter_, _openIters_).
           1. Let _usingIterator_ be *true*.
           1. Perform the following steps _iterCount_ times:
