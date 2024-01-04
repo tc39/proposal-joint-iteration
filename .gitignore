@@ -1,5 +1,5 @@
-tsconfig.tsbuildinfo
-lib
-node_modules
-biblio.json
-dist
+/tsconfig.tsbuildinfo
+/lib
+/node_modules
+/biblio.json
+/dist
