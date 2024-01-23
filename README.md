@@ -75,5 +75,6 @@ See the [November 2023 presentation to committee](https://docs.google.com/presen
 | ixjs                       | `zip`      |                           |            |            |           | yes        | yes      | yes, empty |
 | lodash                     |            | `zip`                     |            |            | `zipWith` | yes        | yes      | yes, empty |
 | ramda                      | `zip`      |                           |            |            | `zipWith` |            |          |            |
+| sequency                   | `zip`      |                           |            |            |           |            |          |            |
 | wu                         | `zip`      | `zipLongest`              |            |            | `zipWith` | yes        | yes      |            |
 | zipiterators               |            | `zipiterators`            |            |            |           |            |          |            |
