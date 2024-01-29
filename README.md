@@ -47,17 +47,18 @@ See the [November 2023 presentation to committee](https://docs.google.com/presen
 
 ### other languages
 
-| language | shortest        | longest                 | privileged       | strict                  | -With       | 3+ sources | 1 source | 0 sources  |
-|----------|-----------------|-------------------------|------------------|-------------------------|-------------|------------|----------|------------|
-| Clojure  | variadic `map`  |                         |                  |                         | yes         | yes        | yes      |            |
-| Elm      |                 |                         |                  |                         | `List.map2` | yes        | yes      |            |
-| Haskell  | `zip`           |                         |                  |                         | `zipWith`   | yes        |          |            |
-| OCaml    | `zip`           |                         |                  | `combine`               | `map2`      |            | yes      |            |
-| Python   | `zip`           | `itertools.zip_longest` |                  | `zip(..., strict=True)` |             | yes        | yes      | yes, empty |
-| Ruby     |                 |                         | `Enumerable#zip` |                         | `zip`       | yes        | yes      |            |
-| Rust     | `Iterator::zip` |                         |                  |                         |             |            |          |            |
-| Scala    | `zip`           | `it.zipAll(jt, x, y)`   |                  |                         |             |            |          |            |
-| Swift    | `zip`           |                         |                  |                         |             |            |          |            |
+| language | shortest                  | longest                 | privileged       | strict                  | -With             | 3+ sources | 1 source | 0 sources  |
+| -------- | ------------------------- | ----------------------- | ---------------- | ----------------------- | ----------------- | ---------- | -------- | ---------- |
+| C++      | `std::ranges::views::zip` |                         |                  |                         | `::zip_transform` | yes        | yes      |            |
+| Clojure  | variadic `map`            |                         |                  |                         | yes               | yes        | yes      |            |
+| Elm      |                           |                         |                  |                         | `List.map2`       | yes        | yes      |            |
+| Haskell  | `zip`                     |                         |                  |                         | `zipWith`         | yes        |          |            |
+| OCaml    | `zip`                     |                         |                  | `combine`               | `map2`            |            | yes      |            |
+| Python   | `zip`                     | `itertools.zip_longest` |                  | `zip(..., strict=True)` |                   | yes        | yes      | yes, empty |
+| Ruby     |                           |                         | `Enumerable#zip` |                         | `zip`             | yes        | yes      |            |
+| Rust     | `Iterator::zip`           |                         |                  |                         |                   |            |          |            |
+| Scala    | `zip`                     | `it.zipAll(jt, x, y)`   |                  |                         |                   |            |          |            |
+| Swift    | `zip`                     |                         |                  |                         |                   |            |          |            |
 
 ### JS libraries
 
