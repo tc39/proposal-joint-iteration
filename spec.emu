@@ -29,7 +29,7 @@ copyright: false
     1. Let _padding_ be a new empty List.
     1. If ? HasProperty(_iterables_, %Symbol.iterator%) is *true*, then
       1. Let _inputIter_ be ? GetIterator(_iterables_, ~sync~).
-      1. Let _next_ be *undefined*.
+      1. Let _next_ be ~not-started~.
       1. Repeat, while _next_ is not ~done~,
         1. Set _next_ to Completion(IteratorStepValue(_inputIter_)).
         1. IfAbruptCloseIterators(_next_, _openIters_).
