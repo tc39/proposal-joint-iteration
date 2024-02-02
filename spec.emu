@@ -29,16 +29,14 @@ copyright: false
     1. Let _padding_ be a new empty List.
     1. If ? HasProperty(_iterables_, %Symbol.iterator%) is *true*, then
       1. Let _inputIter_ be ? GetIterator(_iterables_, ~sync~).
-      1. Let _next_ be ? IteratorStep(_inputIter_).
-      1. Repeat, while _next_ is not *false*,
-        1. Let _value_ be Completion(IteratorValue(_next_)).
-        1. IfAbruptCloseIterators(_value_, _openIters_).
-        1. Let _iter_ be Completion(GetIteratorFlattenable(_value_, ~iterate-strings~)).
+      1. Let _next_ be *undefined*.
+      1. Repeat, while _next_ is not ~done~,
+        1. Set _next_ to Completion(IteratorStepValue(_inputIter_)).
+        1. IfAbruptCloseIterators(_next_, _openIters_).
+        1. Let _iter_ be Completion(GetIteratorFlattenable(_next_, ~iterate-strings~)).
         1. IfAbruptCloseIterators(_iter_, the list-concatenation of « _inputIter_ » and _openIters_).
         1. Append _iter_ to _iters_.
         1. Append _iter_ to _openIters_.
-        1. Set _next_ to Completion(IteratorStep(_inputIter_)).
-        1. IfAbruptCloseIterators(_next_, _openIters_).
       1. Let _iterCount_ be the number of elements in _iters_.
       1. If _mode_ is ~longest~, then
         1. If _paddingOption_ is *undefined*, then
@@ -50,14 +48,12 @@ copyright: false
           1. Let _usingIterator_ be *true*.
           1. Perform the following steps _iterCount_ times:
             1. If _usingIterator_ is *true*, then
-              1. Set _next_ to Completion(IteratorStep(_paddingIter_)).
+              1. Set _next_ to Completion(IteratorStepValue(_paddingIter_)).
               1. IfAbruptCloseIterators(_openIters_).
-              1. If _next_ is *false*, then
+              1. If _next_ is ~done~, then
                 1. Set _usingIterator_ to *false*.
               1. Else,
-                1. Let _value_ be Completion(IteratorValue(_next_)).
-                1. IfAbruptCloseIterators(_value_, _openIters_).
-                1. Append _value_ to _padding_.
+                1. Append _next_ to _padding_.
             1. If _usingIterator_ is *false*, append *undefined* to _padding_.
           1. If _usingIterator_ is *true*, then
             1. Let _completion_ be Completion(IteratorClose(_paddingIter_, NormalCompletion(~unused~))).
@@ -109,12 +105,12 @@ copyright: false
           1. If _iters_[_i_] is *null*, then
             1. Let _result_ be _padding_[_i_].
           1. Else,
-            1. Let _result_ be Completion(IteratorStep(_iters_[_i_])).
+            1. Let _result_ be Completion(IteratorStepValue(_iters_[_i_])).
             1. If _result_ is an abrupt completion, then
               1. Remove _iters_[_i_] from _openIters_.
               1. Return ? IteratorCloseAll(_openIters_, _result_).
-            1. Set _result_ to _result_.[[Value]].
-            1. If _result_ is *false*, then
+            1. Set _result_ to ! _result_.
+            1. If _result_ is ~done~, then
               1. Remove _iters_[_i_] from _openIters_.
               1. If _mode_ is ~shortest~, then
                 1. Return ? IteratorCloseAll(_openIters_, NormalCompletion(*undefined*)).
@@ -129,11 +125,6 @@ copyright: false
             1. Else,
               1. If _observedStrictEnding_ is *true*, then
                 1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
-              1. Set _result_ to Completion(IteratorValue(_result_)).
-              1. If _result_ is an abrupt completion, then
-                1. Remove _iters_[_i_] from _openIters_.
-                1. Return ? IteratorCloseAll(_openIters_, _result_).
-              1. Set _result_ to _result_.[[Value]].
           1. Append _result_ to _results_.
         1. Set _results_ to _finishResults_(_results_).
         1. Let _completion_ be Completion(Yield(_results_)).
