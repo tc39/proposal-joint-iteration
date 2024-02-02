@@ -123,9 +123,8 @@ copyright: false
                 1. Assert: _mode_ is ~longest~.
                 1. Set _iters_[_i_] to *null*.
                 1. Set _result_ to _padding_[_i_].
-            1. Else,
-              1. If _observedStrictEnding_ is *true*, then
-                1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
+            1. Else if _observedStrictEnding_ is *true*, then
+              1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
           1. Append _result_ to _results_.
         1. Set _results_ to _finishResults_(_results_).
         1. Let _completion_ be Completion(Yield(_results_)).
