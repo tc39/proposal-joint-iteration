@@ -50,7 +50,7 @@ copyright: false
           1. Perform the following steps _iterCount_ times:
             1. If _usingIterator_ is *true*, then
               1. Set _next_ to Completion(IteratorStepValue(_paddingIter_)).
-              1. IfAbruptCloseIterators(_openIters_).
+              1. IfAbruptCloseIterators(_next_, _openIters_).
               1. If _next_ is ~done~, then
                 1. Set _usingIterator_ to *false*.
               1. Else,
