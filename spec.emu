@@ -117,20 +117,19 @@ copyright: false
               1. Else if _mode_ is ~strict~, then
                 1. If _i_ ≠ 0, then
                   1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
-                1. Else,
-                  1. For each integer _k_ such that 1 ≤ k &lt; _iterCount_, in ascending order, do
-                    1. Let _open_ be Completion(IteratorStep(_iters_[_k_])).
-                    1. If _result_ is an abrupt completion, then
-                      1. Remove _iters_[_k_] from _openIters_.
-                      1. Return ? IteratorCloseAll(_openIters_, _result_).
-                    1. If _open_ is *false*, then
-                      1. Remove _iters_[_k_] from _openIters_.
-                    1. Else,
-                      1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
-                1. Return NormalCompletion(*undefined*).
+                1. For each integer _k_ such that 1 ≤ k &lt; _iterCount_, in ascending order, do
+                  1. Let _open_ be Completion(IteratorStep(_iters_[_k_])).
+                  1. If _result_ is an abrupt completion, then
+                    1. Remove _iters_[_k_] from _openIters_.
+                    1. Return ? IteratorCloseAll(_openIters_, _result_).
+                  1. If _open_ is *false*, then
+                    1. Remove _iters_[_k_] from _openIters_.
+                  1. Else,
+                    1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
+                1. Return *undefined*.
               1. Else,
                 1. Assert: _mode_ is ~longest~.
-                1. If _openIters_ is empty, return NormalCompletion(*undefined*).
+                1. If _openIters_ is empty, return *undefined*.
                 1. Set _iters_[_i_] to *null*.
                 1. Set _result_ to _padding_[_i_].
           1. Append _result_ to _results_.
