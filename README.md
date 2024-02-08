@@ -3,7 +3,7 @@ Joint Iteration
 
 A TC39 proposal to synchronise the advancement of multiple iterators.
 
-**Stage:** 1
+**Stage:** 2
 
 **Demo:** https://tc39.es/proposal-joint-iteration/demo/
 
@@ -21,7 +21,7 @@ variadic `map`.
 
 ## chosen solution
 
-See the [November 2023 presentation to committee](https://docs.google.com/presentation/d/1sgqXgWBsDF0S43wVuFgIyOC8Y3AMFt1qxBIFbzEq9Vg/edit#slide=id.g29bcb679a87_0_45).
+See the [November 2023](https://docs.google.com/presentation/d/1sgqXgWBsDF0S43wVuFgIyOC8Y3AMFt1qxBIFbzEq9Vg) and the [January 2024](https://docs.google.com/presentation/d/150lLig7sNDr173RVzRgNRKrrUBKzKPImrHjGnfrETzQ) presentations to committee.
 
 ## considered design space
 
