@@ -27,10 +27,12 @@ type NamedIteratees<P extends {
 type IterateesOfTupleOfIterables<T extends readonly IteratorOrIterable<unknown>[]> = {
     -readonly [K in keyof T]: Iteratee<T[K]>;
 };
-declare function zipImpl(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>;
-declare function zipImpl<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>;
-declare function zipImpl<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>;
-declare function zipImpl<P extends {
+type Mode = 'shortest' | 'longest' | 'strict';
+declare function getMode(options: ZipOptions<any>): Mode;
+declare function zipToArrays(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>;
+declare function zipToArrays<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>;
+declare function zipToArrays<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>;
+declare function zipToObjects<P extends {
     readonly [item: PropertyKey]: IteratorOrIterable<unknown>;
 }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>;
 type Nexts = Array<{
@@ -51,8 +53,3 @@ declare function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Arra
     value: unknown;
 }>;
 declare function zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', padding: Array<unknown>): Generator<unknown[], void, unknown>;
-declare function zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown>>;
-declare function zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<{
-    [k: PropertyKey]: unknown;
-}>;
-declare const zip: (input: any, options?: any) => IterableIterator<never>;
