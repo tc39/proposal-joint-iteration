@@ -50,11 +50,21 @@ type NamedIteratees<P  extends { readonly [item: PropertyKey]: IteratorOrIterabl
 // this layer of indirection is necessary until https://github.com/microsoft/TypeScript/issues/27995 gets fixed
 type IterateesOfTupleOfIterables<T extends readonly IteratorOrIterable<unknown>[]> = { -readonly [K in keyof T]: Iteratee<T[K]> }
 
-function zipImpl(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>
-function zipImpl<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>
-function zipImpl<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>
-function zipImpl<P extends { readonly [item: PropertyKey]: IteratorOrIterable<unknown> }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>
-function* zipImpl(input: unknown, options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
+type Mode = 'shortest' | 'longest' | 'strict';
+
+function getMode(options: ZipOptions<any>): Mode {
+  let longest = (options as ZipOptions<never>).longest;
+  let strict = (options as ZipOptions<never>).strict;
+  if (longest && strict) {
+    throw new TypeError;
+  }
+  return longest ? 'longest' : (strict ? 'strict' : 'shortest');
+}
+
+function zipToArrays(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>
+function zipToArrays<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>
+function zipToArrays<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>
+function* zipToArrays(input: unknown, options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
   if (!isObject(input)) {
     throw new TypeError;
   }
@@ -64,17 +74,66 @@ function* zipImpl(input: unknown, options?: unknown): IterableIterator<Array<unk
   if (!isObject(options)) {
     throw new TypeError;
   }
-  let longest = (options as ZipOptions<never>).longest;
-  let strict = (options as ZipOptions<never>).strict;
-  if (longest && strict) {
+  let mode = getMode(options);
+  let iters: Array<Iterator<unknown>> = [];
+  let padding: unknown[];
+  try {
+    for (let iter of (input as Iterable<unknown>)) {
+      iters.push(getIteratorFlattenable(iter, 'iterate-strings'));
+    }
+    padding = iters.map(() => DEFAULT_FILLER);
+    if (mode === 'longest') {
+      let tmp = (options as ZipLongestOptions<Iterable<unknown>>).padding;
+      if (tmp != null) {
+        padding = Array.from(tmp);
+      }
+    }
+  } catch (e) {
+    for (let iter of iters) {
+      try {
+        iter.return?.();
+      } catch {}
+    }
+    throw e;
+  }
+  yield* zipCore(iters, mode, padding);
+}
+
+function zipToObjects<P extends { readonly [item: PropertyKey]: IteratorOrIterable<unknown> }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>
+function* zipToObjects(input: unknown, options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
+  if (!isObject(input)) {
     throw new TypeError;
   }
-  let mode: 'shortest' | 'longest' | 'strict' =
-    longest ? 'longest' : (strict ? 'strict' : 'shortest');
-  if (Symbol.iterator in input) {
-    yield* zipPositional(input as Iterable<unknown>, mode, options);
-  } else {
-    yield* zipNamed(input, mode, options);
+  if (options === undefined) {
+    options = Object.create(null);
+  }
+  if (!isObject(options)) {
+    throw new TypeError;
+  }
+  let mode = getMode(options);
+  let keys = getOwnEnumerablePropertyKeys(input);
+  let padding: Array<unknown> = keys.map(() => DEFAULT_FILLER);
+  let iters: Array<Iterator<unknown>> = [];
+  try {
+    for (let k of keys) {
+      iters.push(getIteratorFlattenable(input[k], 'iterate-strings'));
+    }
+    if (mode === 'longest') {
+      let tmp = (options as ZipLongestOptions<{ [k: PropertyKey]: unknown }>).padding;
+      if (tmp != null) {
+        padding = keys.map(k => tmp![k]);
+      }
+    }
+  } catch (e) {
+    for (let iter of iters) {
+      try {
+        iter.return?.();
+      } catch {}
+    }
+    throw e;
+  }
+  for (let result of zipCore(iters, mode, padding)) {
+    yield Object.fromEntries(result.map((r, i) => [keys[i], r]));
   }
 }
 
@@ -100,7 +159,6 @@ function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Array<{ done
   });
 }
 
-// TODO: consider whether we want to look up the `.next` properties before we read from the `padding` option
 function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', padding: Array<unknown>) {
   if (iters.length === 0) return;
   let nexts: Nexts = iters.map((iter, i) => {
@@ -143,64 +201,16 @@ function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' 
   }
 }
 
-function* zipPositional(input: Iterable<unknown>, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<Array<unknown>> {
-  let iters: Array<Iterator<unknown>> = [];
-  let padding: unknown[];
-  try {
-    for (let iter of input) {
-      iters.push(getIteratorFlattenable(iter, 'iterate-strings'));
-    }
-    padding = iters.map(() => DEFAULT_FILLER);
-    if (mode === 'longest') {
-      let tmp = (options as ZipLongestOptions<Iterable<unknown>>).padding;
-      if (tmp != null) {
-        padding = Array.from(tmp);
-      }
-    }
-  } catch (e) {
-    for (let iter of iters) {
-      try {
-        iter.return?.();
-      } catch {}
-    }
-    throw e;
-  }
-  yield* zipCore(iters, mode, padding);
-}
-
-function* zipNamed(input: Object, mode: 'shortest' | 'longest' | 'strict', options?: unknown): IterableIterator<{ [k: PropertyKey]: unknown }> {
-  let keys = getOwnEnumerablePropertyKeys(input);
-  let padding: Array<unknown> = keys.map(() => DEFAULT_FILLER);
-  let iters: Array<Iterator<unknown>> = [];
-  try {
-    for (let k of keys) {
-      iters.push(getIteratorFlattenable(input[k], 'iterate-strings'));
-    }
-    if (mode === 'longest') {
-      let tmp = (options as ZipLongestOptions<{ [k: PropertyKey]: unknown }>).padding;
-      if (tmp != null) {
-        padding = keys.map(k => tmp![k]);
-      }
-    }
-  } catch (e) {
-    for (let iter of iters) {
-      try {
-        iter.return?.();
-      } catch {}
-    }
-    throw e;
-  }
-  for (let result of zipCore(iters, mode, padding)) {
-    yield Object.fromEntries(result.map((r, i) => [keys[i], r]));
-  }
-}
-
-// NOTE: this line makes zip non-constructible, and gives it the appropriate name and length
-const zip = (input: any, options: any = undefined) => zipImpl(input, options);
-
-Object.defineProperty(Iterator, 'zip', {
+Object.defineProperty(Iterator, 'zipToArrays', {
   configurable: true,
   writable: true,
   enumerable: false,
-  value: zip,
+  value: zipToArrays,
+});
+
+Object.defineProperty(Iterator, 'zipToObjects', {
+  configurable: true,
+  writable: true,
+  enumerable: false,
+  value: zipToObjects,
 });
