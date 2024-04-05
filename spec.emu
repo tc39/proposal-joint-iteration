@@ -159,9 +159,10 @@ copyright: false
                   1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
                 1. For each integer _k_ such that 1 ≤ _k_ &lt; _iterCount_, in ascending order, do
                   1. Let _open_ be Completion(IteratorStep(_iters_[_k_])).
-                  1. If _result_ is an abrupt completion, then
+                  1. If _open_ is an abrupt completion, then
                     1. Remove _iters_[_k_] from _openIters_.
-                    1. Return ? IteratorCloseAll(_openIters_, _result_).
+                    1. Return ? IteratorCloseAll(_openIters_, _open_).
+                  1. Set _open_ to ! _open_.
                   1. If _open_ is *false*, then
                     1. Remove _iters_[_k_] from _openIters_.
                   1. Else,
