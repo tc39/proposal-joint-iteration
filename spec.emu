@@ -139,6 +139,7 @@ copyright: false
   <emu-alg>
     1. Let _iterCount_ be the number of elements in _iters_.
     1. Let _closure_ be a new Abstract Closure with no parameters that captures _iters_, _iterCount_, _openIters_, _mode_, _padding_, and _finishResults_, and performs the following steps when called:
+      1. If _iterCount_ = 0, return *undefined*.
       1. Repeat,
         1. Let _results_ be a new empty List.
         1. For each integer _i_ such that 0 ≤ _i_ &lt; _iterCount_, in ascending order, do
