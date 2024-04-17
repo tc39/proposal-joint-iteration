@@ -25,18 +25,16 @@ copyright: false
       1. Set _paddingOption_ to ? Get(_options_, *"padding"*).
     1. If _strict_ is *true*, set _mode_ to ~strict~.
     1. Let _iters_ be a new empty List.
-    1. Let _openIters_ be a new empty List.
     1. Let _padding_ be a new empty List.
     1. Let _inputIter_ be ? GetIterator(_iterables_, ~sync~).
     1. Let _next_ be ~not-started~.
     1. Repeat, while _next_ is not ~done~,
       1. Set _next_ to Completion(IteratorStepValue(_inputIter_)).
-      1. IfAbruptCloseIterators(_next_, _openIters_).
+      1. IfAbruptCloseIterators(_next_, _iters_).
       1. If _next_ is not ~done~, then
         1. Let _iter_ be Completion(GetIteratorFlattenable(_next_, ~iterate-strings~)).
-        1. IfAbruptCloseIterators(_iter_, the list-concatenation of « _inputIter_ » and _openIters_).
+        1. IfAbruptCloseIterators(_iter_, the list-concatenation of « _inputIter_ » and _iters_).
         1. Append _iter_ to _iters_.
-        1. Append _iter_ to _openIters_.
     1. Let _iterCount_ be the number of elements in _iters_.
     1. If _mode_ is ~longest~, then
       1. If _paddingOption_ is *undefined*, then
@@ -44,12 +42,12 @@ copyright: false
           1. Append *undefined* to _padding_.
       1. Else,
         1. Let _paddingIter_ be Completion(GetIterator(_paddingOption_, ~sync~)).
-        1. IfAbruptCloseIterators(_paddingIter_, _openIters_).
+        1. IfAbruptCloseIterators(_paddingIter_, _iters_).
         1. Let _usingIterator_ be *true*.
         1. Perform the following steps _iterCount_ times:
           1. If _usingIterator_ is *true*, then
             1. Set _next_ to Completion(IteratorStepValue(_paddingIter_)).
-            1. IfAbruptCloseIterators(_next_, _openIters_).
+            1. IfAbruptCloseIterators(_next_, _iters_).
             1. If _next_ is ~done~, then
               1. Set _usingIterator_ to *false*.
             1. Else,
@@ -57,10 +55,9 @@ copyright: false
           1. If _usingIterator_ is *false*, append *undefined* to _padding_.
         1. If _usingIterator_ is *true*, then
           1. Let _completion_ be Completion(IteratorClose(_paddingIter_, NormalCompletion(~unused~))).
-          1. IfAbruptCloseIterators(_completion_, _openIters_).
+          1. IfAbruptCloseIterators(_completion_, _iters_).
     1. Let _finishResults_ be a new Abstract Closure with parameters (_results_) that captures nothing and performs the following steps when called:
       1. Return CreateArrayFromList(_results_).
-    1. Assert: _iters_ and _openIters_ have the same length and elements.
     1. Return IteratorZipCore(_iters_, _mode_, _padding_, _finishResults_).
   </emu-alg>
 </emu-clause>
@@ -81,7 +78,6 @@ copyright: false
       1. Set _paddingOption_ to ? Get(_options_, *"padding"*).
     1. If _strict_ is *true*, set _mode_ to ~strict~.
     1. Let _iters_ be a new empty List.
-    1. Let _openIters_ be a new empty List.
     1. Let _padding_ be a new empty List.
     1. Let _allKeys_ be ? _iterables_.[[OwnPropertyKeys]]().
     1. Let _keys_ be a new empty List.
@@ -96,14 +92,13 @@ copyright: false
           1. Let _getter_ be _desc_.[[Get]].
           1. If _getter_ is not *undefined*, then
             1. Let _getterResult_ be Completion(Call(_getter_, _iterables_)).
-            1. IfAbruptCloseIterators(_getterResult_, _openIters_).
+            1. IfAbruptCloseIterators(_getterResult_, _iters_).
             1. Set _value_ to _getterResult_.
         1. If _value_ is not *undefined*, then
           1. Append _key_ to _keys_.
           1. Let _iter_ be Completion(GetIteratorFlattenable(_value_, ~iterate-strings~)).
-          1. IfAbruptCloseIterators(_iter_, _openIters_).
+          1. IfAbruptCloseIterators(_iter_, _iters_).
           1. Append _iter_ to _iters_.
-          1. Append _iter_ to _openIters_.
     1. Let _iterCount_ be the number of elements in _iters_.
     1. If _mode_ is ~longest~, then
       1. If _paddingOption_ is *undefined*, then
@@ -112,14 +107,13 @@ copyright: false
       1. Else,
         1. For each element _key_ of _keys_, do
           1. Let _value_ be Completion(Get(_paddingOption_, _key_)).
-          1. IfAbruptCloseIterators(_value_, _openIters_).
+          1. IfAbruptCloseIterators(_value_, _iters_).
           1. Append _value_ to _padding_.
     1. Let _finishResults_ be a new Abstract Closure with parameters (_results_) that captures _keys_ and _iterCount_ and performs the following steps when called:
       1. Let _obj_ be OrdinaryObjectCreate(*null*).
       1. For each integer _i_ such that 0 ≤ _i_ &lt; _iterCount_, do
         1. Perform ! CreateDataPropertyOrThrow(_obj_, _keys_[_i_], _results_[_i_]).
       1. Return _obj_.
-    1. Assert: _iters_ and _openIters_ have the same length and elements.
     1. Return IteratorZipCore(_iters_, _mode_, _padding_, _finishResults_).
   </emu-alg>
 </emu-clause>
