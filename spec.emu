@@ -128,8 +128,6 @@ copyright: false
     ): a Generator
   </h1>
   <dl class="header">
-    <dt>description</dt>
-    <dd>TODO</dd>
   </dl>
   <emu-alg>
     1. Let _iterCount_ be the number of elements in _iters_.
@@ -191,8 +189,6 @@ copyright: false
     ): a Completion Record
   </h1>
   <dl class="header">
-    <dt>description</dt>
-    <dd>TODO</dd>
   </dl>
   <emu-alg>
     1. For each element _iter_ of _iters_, in reverse List order, do
