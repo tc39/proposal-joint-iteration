@@ -23,6 +23,7 @@ copyright: false
     1. If _longest_ is *true*, then
       1. Set _mode_ to ~longest~.
       1. Set _paddingOption_ to ? Get(_options_, *"padding"*).
+      1. If _paddingOption_ is not an Object, throw a *TypeError* exception.
     1. If _strict_ is *true*, set _mode_ to ~strict~.
     1. Let _iters_ be a new empty List.
     1. Let _padding_ be a new empty List.
@@ -41,7 +42,6 @@ copyright: false
         1. Perform the following steps _iterCount_ times:
           1. Append *undefined* to _padding_.
       1. Else,
-        1. If _paddingOption_ is not an Object, throw a *TypeError* exception.
         1. Let _paddingIter_ be Completion(GetIterator(_paddingOption_, ~sync~)).
         1. IfAbruptCloseIterators(_paddingIter_, _iters_).
         1. Let _usingIterator_ be *true*.
@@ -77,6 +77,7 @@ copyright: false
     1. If _longest_ is *true*, then
       1. Set _mode_ to ~longest~.
       1. Set _paddingOption_ to ? Get(_options_, *"padding"*).
+      1. If _paddingOption_ is not an Object, throw a *TypeError* exception.
     1. If _strict_ is *true*, set _mode_ to ~strict~.
     1. Let _iters_ be a new empty List.
     1. Let _padding_ be a new empty List.
@@ -106,7 +107,6 @@ copyright: false
         1. Perform the following steps _iterCount_ times:
           1. Append *undefined* to _padding_.
       1. Else,
-        1. If _paddingOption_ is not an Object, throw a *TypeError* exception.
         1. For each element _key_ of _keys_, do
           1. Let _value_ be Completion(Get(_paddingOption_, _key_)).
           1. IfAbruptCloseIterators(_value_, _iters_).
