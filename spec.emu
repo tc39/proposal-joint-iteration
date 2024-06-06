@@ -58,7 +58,7 @@ copyright: false
           1. IfAbruptCloseIterators(_completion_, _iters_).
     1. Let _finishResults_ be a new Abstract Closure with parameters (_results_) that captures nothing and performs the following steps when called:
       1. Return CreateArrayFromList(_results_).
-    1. Return IteratorZipCore(_iters_, _mode_, _padding_, _finishResults_).
+    1. Return IteratorZip(_iters_, _mode_, _padding_, _finishResults_).
   </emu-alg>
 </emu-clause>
 
@@ -114,13 +114,13 @@ copyright: false
       1. For each integer _i_ such that 0 ≤ _i_ &lt; _iterCount_, in ascending order, do
         1. Perform ! CreateDataPropertyOrThrow(_obj_, _keys_[_i_], _results_[_i_]).
       1. Return _obj_.
-    1. Return IteratorZipCore(_iters_, _mode_, _padding_, _finishResults_).
+    1. Return IteratorZip(_iters_, _mode_, _padding_, _finishResults_).
   </emu-alg>
 </emu-clause>
 
-<emu-clause id="sec-IteratorZipCore" type="abstract operation">
+<emu-clause id="sec-IteratorZip" type="abstract operation">
   <h1>
-    IteratorZipCore (
+    IteratorZip (
       _iters_: a List of Iterator Records,
       _mode_: either ~shortest~, ~longest~, or ~strict~,
       _padding_: a List of ECMAScript language values,
