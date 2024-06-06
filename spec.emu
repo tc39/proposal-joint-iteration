@@ -33,7 +33,7 @@ copyright: false
       1. Set _next_ to Completion(IteratorStepValue(_inputIter_)).
       1. IfAbruptCloseIterators(_next_, _iters_).
       1. If _next_ is not ~done~, then
-        1. Let _iter_ be Completion(GetIteratorFlattenable(_next_, ~iterate-strings~)).
+        1. Let _iter_ be Completion(GetIteratorFlattenable(_next_, ~reject-strings~)).
         1. IfAbruptCloseIterators(_iter_, the list-concatenation of « _inputIter_ » and _iters_).
         1. Append _iter_ to _iters_.
     1. Let _iterCount_ be the number of elements in _iters_.
@@ -98,7 +98,7 @@ copyright: false
             1. Set _value_ to _getterResult_.
         1. If _value_ is not *undefined*, then
           1. Append _key_ to _keys_.
-          1. Let _iter_ be Completion(GetIteratorFlattenable(_value_, ~iterate-strings~)).
+          1. Let _iter_ be Completion(GetIteratorFlattenable(_value_, ~reject-strings~)).
           1. IfAbruptCloseIterators(_iter_, _iters_).
           1. Append _iter_ to _iters_.
     1. Let _iterCount_ be the number of elements in _iters_.
