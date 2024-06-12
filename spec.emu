@@ -44,6 +44,7 @@ copyright: false
       1. Else,
         1. Let _paddingIter_ be Completion(GetIterator(_paddingOption_, ~sync~)).
         1. IfAbruptCloseIterators(_paddingIter_, _iters_).
+        1. If _paddingIter_ is a String, throw a *TypeError* exception.
         1. Let _usingIterator_ be *true*.
         1. Perform the following steps _iterCount_ times:
           1. If _usingIterator_ is *true*, then
