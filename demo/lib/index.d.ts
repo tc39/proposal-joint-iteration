@@ -4,17 +4,14 @@ declare function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strin
 declare function isObject(obj: unknown): obj is Object;
 declare function getOwnEnumerablePropertyKeys<O extends Object>(obj: O): Array<keyof O>;
 interface ZipShortestOptions {
-    longest?: false;
-    strict?: false;
+    mode?: 'shortest';
 }
 interface ZipLongestOptions<F> {
-    longest: true;
-    strict?: false;
+    mode: 'longest';
     padding?: F;
 }
 interface ZipStrictOptions {
-    longest?: false;
-    strict: true;
+    mode: 'strict';
 }
 type ZipOptions<F> = ZipShortestOptions | ZipLongestOptions<F> | ZipStrictOptions;
 type IteratorOrIterable<A> = Iterable<A> | Iterator<A>;
