@@ -9,8 +9,8 @@ location: https://tc39.es/proposal-joint-iteration/
 copyright: false
 </pre>
 
-<emu-clause id="sec-iterator.ziptoarrays">
-  <h1>Iterator.zipToArrays ( _iterables_ [ , _options_ ] )</h1>
+<emu-clause id="sec-iterator.zip">
+  <h1>Iterator.zip ( _iterables_ [ , _options_ ] )</h1>
   <p>This method performs the following steps when called:</p>
   <emu-alg>
     1. If _iterables_ is not an Object, throw a *TypeError* exception.

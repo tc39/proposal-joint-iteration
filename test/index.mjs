@@ -4,7 +4,7 @@ import '../lib/index.js';
 
 test('basic positional', async t => {
   await t.test('shortest', () => {
-    assert.deepEqual(Array.from(Iterator.zipToArrays([
+    assert.deepEqual(Array.from(Iterator.zip([
       [0],
       [1, 2],
     ])), [
@@ -13,7 +13,7 @@ test('basic positional', async t => {
   });
 
   await t.test('equiv', () => {
-    assert.deepEqual(Array.from(Iterator.zipToArrays([
+    assert.deepEqual(Array.from(Iterator.zip([
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
@@ -25,11 +25,11 @@ test('basic positional', async t => {
   });
 
   await t.test('empty', () => {
-    assert.deepEqual(Array.from(Iterator.zipToArrays([])), []);
+    assert.deepEqual(Array.from(Iterator.zip([])), []);
   });
 
   await t.test('longest', () => {
-    assert.deepEqual(Array.from(Iterator.zipToArrays([
+    assert.deepEqual(Array.from(Iterator.zip([
       [0],
       [1, 2],
     ], { mode: 'longest' })), [
@@ -40,7 +40,7 @@ test('basic positional', async t => {
 
   await t.test('strict', () => {
     let result = 
-      Iterator.zipToArrays([
+      Iterator.zip([
         [0],
         [1, 2],
       ], { mode: 'strict' });
@@ -102,7 +102,7 @@ test('padding', async t => {
   await t.test('positional', () => {
     const padding = [{}, {}, {}, {}];
 
-    assert.deepEqual(Array.from(Iterator.zipToArrays([
+    assert.deepEqual(Array.from(Iterator.zip([
       [0],
       [1, 2, 3],
     ], { mode: 'longest', padding })), [
@@ -111,7 +111,7 @@ test('padding', async t => {
       [padding[0], 3],
     ]);
 
-    assert.deepEqual(Array.from(Iterator.zipToArrays([
+    assert.deepEqual(Array.from(Iterator.zip([
       [0],
       [1, 2, 3],
       [4, 5],

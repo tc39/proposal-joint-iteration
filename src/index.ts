@@ -60,10 +60,10 @@ function getMode(options: ZipOptions<any>): Mode {
   return mode as Mode;
 }
 
-function zipToArrays(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>
-function zipToArrays<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>
-function zipToArrays<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>
-function* zipToArrays(input: unknown, options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
+function zip(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>
+function zip<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>
+function zip<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>
+function* zip(input: unknown, options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
   if (!isObject(input)) {
     throw new TypeError;
   }
@@ -200,11 +200,11 @@ function* zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' 
   }
 }
 
-Object.defineProperty(Iterator, 'zipToArrays', {
+Object.defineProperty(Iterator, 'zip', {
   configurable: true,
   writable: true,
   enumerable: false,
-  value: zipToArrays,
+  value: zip,
 });
 
 Object.defineProperty(Iterator, 'zipToObjects', {
