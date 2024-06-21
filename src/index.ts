@@ -4,7 +4,7 @@ if (typeof Iterator === 'undefined' || Iterator == null) {
   globalThis.Iterator = {};
 }
 
-const DEFAULT_FILLER = void 0;
+const DEFAULT_FILLER = undefined;
 
 function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<unknown> {
   if (Object(obj) !== obj) {
@@ -30,17 +30,14 @@ function getOwnEnumerablePropertyKeys<O extends Object>(obj: O): Array<keyof O> 
 }
 
 interface ZipShortestOptions {
-  longest?: false,
-  strict?: false,
+  mode?: 'shortest',
 }
 interface ZipLongestOptions<F> {
-  longest: true,
-  strict?: false,
+  mode: 'longest',
   padding?: F,
 }
 interface ZipStrictOptions {
-  longest?: false,
-  strict: true,
+  mode: 'strict',
 };
 type ZipOptions<F> = ZipShortestOptions | ZipLongestOptions<F> | ZipStrictOptions;
 
@@ -53,12 +50,14 @@ type IterateesOfTupleOfIterables<T extends readonly IteratorOrIterable<unknown>[
 type Mode = 'shortest' | 'longest' | 'strict';
 
 function getMode(options: ZipOptions<any>): Mode {
-  let longest = (options as ZipOptions<never>).longest;
-  let strict = (options as ZipOptions<never>).strict;
-  if (longest && strict) {
+  let mode = (options as ZipOptions<never>).mode;
+  if (mode === undefined) {
+    mode = 'shortest';
+  }
+  if (mode !== 'shortest' && mode !== 'longest' && mode !== 'strict') {
     throw new TypeError;
   }
-  return longest ? 'longest' : (strict ? 'strict' : 'shortest');
+  return mode as Mode;
 }
 
 function zipToArrays(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>

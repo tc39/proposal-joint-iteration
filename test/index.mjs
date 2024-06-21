@@ -32,7 +32,7 @@ test('basic positional', async t => {
     assert.deepEqual(Array.from(Iterator.zipToArrays([
       [0],
       [1, 2],
-    ], { longest: true })), [
+    ], { mode: 'longest' })), [
       [0, 1],
       [undefined, 2],
     ]);
@@ -43,7 +43,7 @@ test('basic positional', async t => {
       Iterator.zipToArrays([
         [0],
         [1, 2],
-      ], { strict: true });
+      ], { mode: 'strict' });
     assert.throws(() => {
       Array.from(result);
     }, RangeError);
@@ -80,7 +80,7 @@ test('basic named', async t => {
     assert.deepEqual(Array.from(Iterator.zipToObjects({
       a: [0],
       b: [1, 2],
-    }, { longest: true })), [
+    }, { mode: 'longest' })), [
       { a: 0, b: 1 },
       { a: undefined, b: 2 },
     ]);
@@ -91,7 +91,7 @@ test('basic named', async t => {
       Iterator.zipToObjects({
         a: [0],
         b: [1, 2],
-      }, { strict: true });
+      }, { mode: 'strict' });
     assert.throws(() => {
       Array.from(result);
     }, RangeError);
@@ -105,7 +105,7 @@ test('padding', async t => {
     assert.deepEqual(Array.from(Iterator.zipToArrays([
       [0],
       [1, 2, 3],
-    ], { longest: true, padding })), [
+    ], { mode: 'longest', padding })), [
       [0, 1],
       [padding[0], 2],
       [padding[0], 3],
@@ -116,7 +116,7 @@ test('padding', async t => {
       [1, 2, 3],
       [4, 5],
       [],
-    ], { longest: true, padding })), [
+    ], { mode: 'longest', padding })), [
       [0, 1, 4, padding[3]],
       [padding[0], 2, 5, padding[3]],
       [padding[0], 3, padding[2], padding[3]],
@@ -139,7 +139,7 @@ test('padding', async t => {
     assert.deepEqual(Array.from(Iterator.zipToObjects({
       a: [0],
       b: [1, 2, 3],
-    }, { longest: true, padding })), [
+    }, { mode: 'longest', padding })), [
       { a: 0, b: 1 },
       { a: A_PADDING, b: 2 },
       { a: A_PADDING, b: 3 },
@@ -150,7 +150,7 @@ test('padding', async t => {
       b: [1, 2, 3],
       c: [4, 5],
       d: [],
-    }, { longest: true, padding })), [
+    }, { mode: 'longest', padding })), [
       { a: 0, b: 1, c: 4, d: D_PADDING },
       { a: A_PADDING, b: 2, c: 5, d: D_PADDING },
       { a: A_PADDING, b: 3, c: C_PADDING, d: D_PADDING },
