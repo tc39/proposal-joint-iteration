@@ -16,8 +16,8 @@ copyright: false
     1. If _iterables_ is not an Object, throw a *TypeError* exception.
     1. Set _options_ to ? GetOptionsObject(_options_).
     1. Let _mode_ be ? Get(_options_, *"mode"*).
-    1. If _mode_ is not one of *"shortest"*, *"longest"*, *"strict"*, or *undefined*, throw a *TypeError* exception.
     1. If _mode_ is *undefined*, set _mode_ to *"shortest"*.
+    1. If _mode_ is not one of *"shortest"*, *"longest"*, or *"strict"*, throw a *TypeError* exception.
     1. Let _paddingOption_ be *undefined*.
     1. If _mode_ is *"longest"*, then
       1. Set _paddingOption_ to ? Get(_options_, *"padding"*).
@@ -68,8 +68,8 @@ copyright: false
     1. If _iterables_ is not an Object, throw a *TypeError* exception.
     1. Set _options_ to ? GetOptionsObject(_options_).
     1. Let _mode_ be ? Get(_options_, *"mode"*).
-    1. If _mode_ is not one of *"shortest"*, *"longest"*, *"strict"*, or *undefined*, throw a *TypeError* exception.
     1. If _mode_ is *undefined*, set _mode_ to *"shortest"*.
+    1. If _mode_ is not one of *"shortest"*, *"longest"*, or *"strict"*, throw a *TypeError* exception.
     1. Let _paddingOption_ be *undefined*.
     1. If _mode_ is *"longest"*, then
       1. Set _paddingOption_ to ? Get(_options_, *"padding"*).
