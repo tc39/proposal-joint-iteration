@@ -26,9 +26,9 @@ type IterateesOfTupleOfIterables<T extends readonly IteratorOrIterable<unknown>[
 };
 type Mode = 'shortest' | 'longest' | 'strict';
 declare function getMode(options: ZipOptions<any>): Mode;
-declare function zipToArrays(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>;
-declare function zipToArrays<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>;
-declare function zipToArrays<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>;
+declare function zip(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>;
+declare function zip<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>;
+declare function zip<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>;
 declare function zipToObjects<P extends {
     readonly [item: PropertyKey]: IteratorOrIterable<unknown>;
 }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>;
