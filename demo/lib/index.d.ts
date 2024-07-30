@@ -29,7 +29,7 @@ declare function getMode(options: ZipOptions<any>): Mode;
 declare function zip(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>;
 declare function zip<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>;
 declare function zip<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>;
-declare function zipToObjects<P extends {
+declare function zipKeyed<P extends {
     readonly [item: PropertyKey]: IteratorOrIterable<unknown>;
 }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>;
 type Nexts = Array<{
