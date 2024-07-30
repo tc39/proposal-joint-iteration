@@ -98,8 +98,8 @@ function* zip(input: unknown, options?: unknown): IterableIterator<Array<unknown
   yield* zipCore(iters, mode, padding);
 }
 
-function zipToObjects<P extends { readonly [item: PropertyKey]: IteratorOrIterable<unknown> }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>
-function* zipToObjects(input: unknown, options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
+function zipKeyed<P extends { readonly [item: PropertyKey]: IteratorOrIterable<unknown> }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>
+function* zipKeyed(input: unknown, options?: unknown): IterableIterator<Array<unknown> | { [k: PropertyKey]: unknown }> {
   if (!isObject(input)) {
     throw new TypeError;
   }
@@ -207,9 +207,9 @@ Object.defineProperty(Iterator, 'zip', {
   value: zip,
 });
 
-Object.defineProperty(Iterator, 'zipToObjects', {
+Object.defineProperty(Iterator, 'zipKeyed', {
   configurable: true,
   writable: true,
   enumerable: false,
-  value: zipToObjects,
+  value: zipKeyed,
 });
