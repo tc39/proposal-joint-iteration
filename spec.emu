@@ -61,8 +61,8 @@ copyright: false
   </emu-alg>
 </emu-clause>
 
-<emu-clause id="sec-iterator.ziptoobjects">
-  <h1>Iterator.zipToObjects ( _iterables_ [ , _options_ ] )</h1>
+<emu-clause id="sec-iterator.zipkeyed">
+  <h1>Iterator.zipKeyed ( _iterables_ [ , _options_ ] )</h1>
   <p>This method performs the following steps when called:</p>
   <emu-alg>
     1. If _iterables_ is not an Object, throw a *TypeError* exception.

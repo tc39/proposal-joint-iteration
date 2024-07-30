@@ -39,7 +39,7 @@ test('basic positional', async t => {
   });
 
   await t.test('strict', () => {
-    let result = 
+    let result =
       Iterator.zip([
         [0],
         [1, 2],
@@ -52,7 +52,7 @@ test('basic positional', async t => {
 
 test('basic named', async t => {
   await t.test('shortest', () => {
-    assert.deepEqual(Array.from(Iterator.zipToObjects({
+    assert.deepEqual(Array.from(Iterator.zipKeyed({
       a: [0],
       b: [1, 2],
     })), [
@@ -61,7 +61,7 @@ test('basic named', async t => {
   });
 
   await t.test('equiv', () => {
-    assert.deepEqual(Array.from(Iterator.zipToObjects({
+    assert.deepEqual(Array.from(Iterator.zipKeyed({
       a: [0, 1, 2],
       b: [3, 4, 5],
       c: [6, 7, 8],
@@ -73,11 +73,11 @@ test('basic named', async t => {
   });
 
   await t.test('empty', () => {
-    assert.deepEqual(Array.from(Iterator.zipToObjects({})), []);
+    assert.deepEqual(Array.from(Iterator.zipKeyed({})), []);
   });
 
   await t.test('longest', () => {
-    assert.deepEqual(Array.from(Iterator.zipToObjects({
+    assert.deepEqual(Array.from(Iterator.zipKeyed({
       a: [0],
       b: [1, 2],
     }, { mode: 'longest' })), [
@@ -87,8 +87,8 @@ test('basic named', async t => {
   });
 
   await t.test('strict', () => {
-    let result = 
-      Iterator.zipToObjects({
+    let result =
+      Iterator.zipKeyed({
         a: [0],
         b: [1, 2],
       }, { mode: 'strict' });
@@ -136,7 +136,7 @@ test('padding', async t => {
       d: D_PADDING
     };
 
-    assert.deepEqual(Array.from(Iterator.zipToObjects({
+    assert.deepEqual(Array.from(Iterator.zipKeyed({
       a: [0],
       b: [1, 2, 3],
     }, { mode: 'longest', padding })), [
@@ -145,7 +145,7 @@ test('padding', async t => {
       { a: A_PADDING, b: 3 },
     ]);
 
-    assert.deepEqual(Array.from(Iterator.zipToObjects({
+    assert.deepEqual(Array.from(Iterator.zipKeyed({
       a: [0],
       b: [1, 2, 3],
       c: [4, 5],
