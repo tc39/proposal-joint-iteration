@@ -130,7 +130,7 @@ copyright: false
     1. Let _iterCount_ be the number of elements in _iters_.
     1. Let _openIters_ be a copy of _iters_.
     1. Let _closure_ be a new Abstract Closure with no parameters that captures _iters_, _iterCount_, _openIters_, _mode_, _padding_, and _finishResults_, and performs the following steps when called:
-      1. If _iterCount_ = 0, return ~unused~.
+      1. If _iterCount_ = 0, return NormalCompletion(~unused~).
       1. Repeat,
         1. Let _results_ be a new empty List.
         1. Assert: _openIters_ is not empty.
@@ -162,10 +162,10 @@ copyright: false
                     1. Remove _iters_[_k_] from _openIters_.
                   1. Else,
                     1. Return ? IteratorCloseAll(_openIters_, ThrowCompletion(a newly created *TypeError* object)).
-                1. Return ~unused~.
+                1. Return NormalCompletion(~unused~).
               1. Else,
                 1. Assert: _mode_ is *"longest"*.
-                1. If _openIters_ is empty, return ~unused~.
+                1. If _openIters_ is empty, return NormalCompletion(~unused~).
                 1. Set _iters_[_i_] to *null*.
                 1. Set _result_ to _padding_[_i_].
           1. Append _result_ to _results_.
