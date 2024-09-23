@@ -20,7 +20,7 @@
   "homepage": "https://github.com/tc39/proposal-joint-iteration#readme",
   "devDependencies": {
     "@tc39/ecma262-biblio": "2.1.2775",
-    "ecmarkup": "18.3.1",
+    "ecmarkup": "20.0.0",
     "typescript": "5.2.2"
   }
 }
