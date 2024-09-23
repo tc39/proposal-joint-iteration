@@ -221,7 +221,7 @@ copyright: false
       1. NOTE: Once a generator enters the completed state it never leaves it and its associated execution context is never resumed. Any execution state associated with _O_ can be discarded at this point.
       1. <del>Perform ? IteratorClose(_O_.[[UnderlyingIterator]], ReturnCompletion(*undefined*)).</del>
       1. <ins>Perform ? IteratorCloseAll(_O_.[[UnderlyingIterators]], ReturnCompletion(*undefined*)).</ins>
-      1. Return CreateIterResultObject(*undefined*, *true*).
+      1. Return CreateIteratorResultObject(*undefined*, *true*).
     1. Let _C_ be Completion { [[Type]]: ~return~, [[Value]]: *undefined*, [[Target]]: ~empty~ }.
     1. Return ? GeneratorResumeAbrupt(_O_, _C_, *"Iterator Helper"*).
   </emu-alg>
@@ -252,7 +252,7 @@ copyright: false
     <emu-alg>
       1. If _options_ is *undefined*, then
         1. Return OrdinaryObjectCreate(*null*).
-      1. If Type(_options_) is Object, then
+      1. If _options_ is an Object, then
         1. Return _options_.
       1. Throw a *TypeError* exception.
     </emu-alg>
