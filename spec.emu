@@ -52,7 +52,7 @@ copyright: false
               1. Append _next_ to _padding_.
           1. If _usingIterator_ is *false*, append *undefined* to _padding_.
         1. If _usingIterator_ is *true*, then
-          1. Let _completion_ be Completion(IteratorClose(_paddingIter_, ReturnCompletion(*undefined*))).
+          1. Let _completion_ be Completion(IteratorClose(_paddingIter_, NormalCompletion(~unused~))).
           1. IfAbruptCloseIterators(_completion_, _iters_).
     1. Let _finishResults_ be a new Abstract Closure with parameters (_results_) that captures nothing and performs the following steps when called:
       1. Return CreateArrayFromList(_results_).
