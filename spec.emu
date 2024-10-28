@@ -78,7 +78,8 @@ copyright: false
     1. Let _allKeys_ be ? _iterables_.[[OwnPropertyKeys]]().
     1. Let _keys_ be a new empty List.
     1. For each element _key_ of _allKeys_, do
-      1. Let _desc_ be ? _iterables_.[[GetOwnProperty]](_key_).
+      1. Let _desc_ be Completion(_iterables_.[[GetOwnProperty]](_key_)).
+      1. IfAbruptCloseIterators(_desc_, _iters_).
       1. If _desc_ is not *undefined* and _desc_.[[Enumerable]] is *true*, then
         1. Let _value_ be *undefined*.
         1. If IsDataDescriptor(_desc_) is *true*, then
