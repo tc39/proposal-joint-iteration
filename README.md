@@ -28,7 +28,7 @@ variadic `map`.
 
 ## proposal
 
-This proposal would add two methods, `Iterator.zip` and `Iterator.zipKeyed`. `zip` takes an iterable of iterables and produces an iterable of arrays where position corresponds to position in the passed iterable, `zipKeyed` takes an object whose value are iterables and produces an iterable of objects where keys correspond to keys in the passed object:
+This proposal adds two methods: `Iterator.zip` and `Iterator.zipKeyed`. `zip` takes an iterable of iterables and produces an iterable of arrays where position corresponds to position in the passed iterable. `zipKeyed` takes an object whose values are iterables and produces an iterable of objects where keys correspond to keys in the passed object.
 
 ```js
 Iterator.zip([
