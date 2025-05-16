@@ -26,25 +26,87 @@ variadic `map`.
 - [November 2023](https://docs.google.com/presentation/d/1sgqXgWBsDF0S43wVuFgIyOC8Y3AMFt1qxBIFbzEq9Vg)
 - [September 2023](https://docs.google.com/presentation/d/18Xnd--QmYV8c-qw3tGe4zvlIfF5A-CdXr-qW1tW6j4o)
 
+## proposal
+
+This proposal would add two methods, `Iterator.zip` and `Iterator.zipKeyed`. `zip` takes an iterable of iterables and produces an iterable of arrays where position corresponds to position in the passed iterable, `zipKeyed` takes an object whose value are iterables and produces an iterable of objects where keys correspond to keys in the passed object:
+
+```js
+Iterator.zip([
+  [0, 1, 2],
+  [3, 4, 5],
+]).toArray()
+
+/*
+Produces:
+[
+  [0, 3],
+  [1, 4],
+  [2, 5],
+]
+*/
+
+```
+```js
+Iterator.zipKeyed({
+  a: [0, 1, 2],
+  b: [3, 4, 5, 6],
+  c: [7, 8, 9],
+}).toArray()
+
+/*
+Produces:
+[
+  { a: 0, b: 3, c: 7 },
+  { a: 1, b: 4, c: 8 },
+  { a: 2, b: 5, c: 9 },
+]
+*/
+```
+
+Both methods take an options bag as a second argument which allows specifying a `mode` of `"shortest"` (the default), `"longest"`, or `"strict"`.
+
+For `"longest"`, the options bag can also define padding to be used for shorter inputs by providing an iterable or object (for `zip` and `zipKeyed` respectively):
+
+```js
+Iterator.zipKeyed({
+  a: [0, 1, 2],
+  b: [3, 4, 5, 6],
+  c: [7, 8, 9],
+}, {
+  mode: 'longest',
+  padding: { c: 10 },
+}).toArray()
+
+/*
+Produces:
+[
+  { a: 0,         b: 3, c: 7  },
+  { a: 1,         b: 4, c: 8  },
+  { a: 2,         b: 5, c: 9  },
+  { a: undefined, b: 6, c: 10 },
+];
+*/
+```
+
 ## considered design space
 
-1. do we support just 2 iterators or something else? 2+? 1+? 0+?
-    1. if 0 is allowed, is that considered never-ending or already completed?
-    1. should the iterators be passed positionally (combining to arrays) or named (combining to objects)?
-    1. do we take the iterators as varargs or as an iterable/object?
+1. do we support just 2 iterators or something else? 2+? 1+? 0+? **Decision: 0+.**
+    1. if 0 is allowed, is that considered never-ending or already completed? **Decision: Already completed.**
+    1. should the iterators be passed positionally (combining to arrays) or named (combining to objects)? **Decision: Both, as seperate APIs.**
+    1. do we take the iterators as varargs or as an iterable/object? **Decision: Iterable/object.**
         1. varargs eliminates design space for potentially passing an options bag or a combining function
-1. do we support iterators and iterables like `Iterator.from` and `flatMap`?
+1. do we support iterators and iterables like `Iterator.from` and `flatMap`? **Decision: Just iterables.**
     1. if so, which string handling do we match? `Iterator.from` iterates strings; `flatMap` rejects strings
-1. if an iterator completes, do we still advance the other iterators?
-    1. do we `return` them?
-1. if an iterator fails to advance, do we still advance the other iterators?
-    1. if so, do we return an AggregateError? Only if 2+ failures?
-1. do we want `-With` variants for combining the values in other ways than tupling?
+1. if an iterator completes, do we still advance the other iterators? **Decision: Depends on the mode.**
+    1. do we `return` them? **Decision: Yes, except with mode: longest.**
+1. if an iterator fails to advance, do we still advance the other iterators? **Decision: Yes.**
+    1. if so, do we return an AggregateError? Only if 2+ failures? **Decision: No, first error swallows any subsequent.**
+1. do we want `-With` variants for combining the values in other ways than tupling? **Decision: Not in this proposal.**
     1. what about always requiring the combiner?
-1. do we want a `zipLongest`/`zipFilled`/`zipAll`?
-   1. if so, do we want a filler element or to call a function to provide the filler?
-   1. what about a variant that matches the length of a privileged iterator (`this`)?
-1. do we want a `zipEqual`/`zipStrict` that throws if they do not complete after the same number of yields?
+1. do we want a `zipLongest`/`zipFilled`/`zipAll`? **Decision: Yes, as an option.**
+   1. if so, do we want a filler element or to call a function to provide the filler? **Decision: Per-iterable filler elements.**
+   1. what about a variant that matches the length of a privileged iterator (`this`)? **Decision: No.**
+1. do we want a `zipEqual`/`zipStrict` that throws if they do not complete after the same number of yields? **Decision: Yes, as an option.**
 
 ## prior art
 
