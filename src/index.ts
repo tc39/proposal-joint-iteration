@@ -67,7 +67,7 @@ function getPadding(options: ZipLongestOptions<any>): Object | undefined {
   return padding;
 }
 
-function IteratorCloseAll(iters: Array<{ done: boolean, iter: { return?: () => void } } | { done: true }>, error: { error: unknown } | null, skipIndex?: number) {
+function IteratorCloseAll(iters: Array<{ done: boolean, iter: { return?: () => void } } | { done: true }>, error?: { error: unknown }, skipIndex?: number) {
   for (let k = iters.length - 1; k >= 0; --k) {
     if (k === skipIndex) continue;
     try {
@@ -105,7 +105,7 @@ function wrapForIteratorHelperBehavior<T, S>(input: IterableIterator<Array<T>>, 
       if (state === 'suspended-start') {
         // we have to do this manually because generators do not run any code if `.return` is called before `.next`
         state = 'completed';
-        IteratorCloseAll(underlyingIterators, null);
+        IteratorCloseAll(underlyingIterators);
         return { value: v, done: true };
       }
       try {
@@ -144,14 +144,15 @@ function zip(input: unknown, options: unknown = undefined): IterableIterator<Arr
 
   let inputIterator = (input as Iterable<unknown>)[Symbol.iterator]();
   let inputNext = inputIterator.next;
-  let errorInInputIterator = false;
   try {
     let done, value;
-    errorInInputIterator = true;
     while (({ done, value } = inputNext.call(inputIterator), !done)) {
-      errorInInputIterator = false;
-      iters.push(getIteratorFlattenable(value, 'reject-strings'));
-      errorInInputIterator = true;
+      try {
+        iters.push(getIteratorFlattenable(value, 'reject-strings'));
+      } catch (e) {
+        iters.unshift({ done: false, iter: inputIterator, next: null as any });
+        throw e;
+      }
     }
     if (mode === 'longest') {
       if (paddingOption === undefined) {
@@ -179,8 +180,7 @@ function zip(input: unknown, options: unknown = undefined): IterableIterator<Arr
       }
     }
   } catch (e) {
-    let toClose = errorInInputIterator ? iters : [{ done: false, iter: inputIterator }, ...iters];
-    IteratorCloseAll(toClose, { error: e });
+    IteratorCloseAll(iters, { error: e });
   }
   return wrapForIteratorHelperBehavior(zipCore(iters, mode, padding), iters, x => x);
 }
@@ -237,7 +237,7 @@ function zipKeyed(input: unknown, options: unknown = undefined): IterableIterato
 function* zipCore(iters: Array<IteratorRecord | { done: true }>, mode: 'shortest' | 'longest' | 'strict', padding: Array<unknown>) {
   if (iters.length === 0) return;
   let i = -1;
-  let error: { error: unknown } | null = null;;
+  let error: { error: unknown } | undefined;
   try {
     while (true) {
       let results = [];
