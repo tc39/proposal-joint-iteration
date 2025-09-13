@@ -279,11 +279,7 @@ function* zipCore(iters: Array<IteratorRecord | { done: true }>, mode: 'shortest
           }
         }
       }
-      // the tmpI dance is so that we still close iters[i] if `.return` is called during the `yield`
-      let tmpI = i;
-      i = -1;
       yield results;
-      i = tmpI;
     }
   } catch (e) {
     error = { error: e };
