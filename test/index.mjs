@@ -46,7 +46,7 @@ test('basic positional', async t => {
       ], { mode: 'strict' });
     assert.throws(() => {
       Array.from(result);
-    }, RangeError);
+    }, TypeError);
   });
 });
 
@@ -56,7 +56,7 @@ test('basic named', async t => {
       a: [0],
       b: [1, 2],
     })), [
-      { a: 0,  b: 1 },
+      { a: 0,  b: 1, __proto__: null },
     ]);
   });
 
@@ -66,9 +66,9 @@ test('basic named', async t => {
       b: [3, 4, 5],
       c: [6, 7, 8],
     })), [
-      { a: 0, b: 3, c: 6 },
-      { a: 1, b: 4, c: 7 },
-      { a: 2, b: 5, c: 8 },
+      { a: 0, b: 3, c: 6, __proto__: null },
+      { a: 1, b: 4, c: 7, __proto__: null },
+      { a: 2, b: 5, c: 8, __proto__: null },
     ]);
   });
 
@@ -81,8 +81,8 @@ test('basic named', async t => {
       a: [0],
       b: [1, 2],
     }, { mode: 'longest' })), [
-      { a: 0, b: 1 },
-      { a: undefined, b: 2 },
+      { a: 0, b: 1, __proto__: null },
+      { a: undefined, b: 2, __proto__: null },
     ]);
   });
 
@@ -94,7 +94,7 @@ test('basic named', async t => {
       }, { mode: 'strict' });
     assert.throws(() => {
       Array.from(result);
-    }, RangeError);
+    }, TypeError);
   });
 });
 
@@ -140,9 +140,9 @@ test('padding', async t => {
       a: [0],
       b: [1, 2, 3],
     }, { mode: 'longest', padding })), [
-      { a: 0, b: 1 },
-      { a: A_PADDING, b: 2 },
-      { a: A_PADDING, b: 3 },
+      { a: 0, b: 1, __proto__: null },
+      { a: A_PADDING, b: 2, __proto__: null },
+      { a: A_PADDING, b: 3, __proto__: null },
     ]);
 
     assert.deepEqual(Array.from(Iterator.zipKeyed({
@@ -151,9 +151,9 @@ test('padding', async t => {
       c: [4, 5],
       d: [],
     }, { mode: 'longest', padding })), [
-      { a: 0, b: 1, c: 4, d: D_PADDING },
-      { a: A_PADDING, b: 2, c: 5, d: D_PADDING },
-      { a: A_PADDING, b: 3, c: C_PADDING, d: D_PADDING },
+      { a: 0, b: 1, c: 4, d: D_PADDING, __proto__: null },
+      { a: A_PADDING, b: 2, c: 5, d: D_PADDING, __proto__: null },
+      { a: A_PADDING, b: 3, c: C_PADDING, d: D_PADDING, __proto__: null },
     ]);
   });
 });
