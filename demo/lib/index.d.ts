@@ -1,8 +1,7 @@
 declare var Iterator: {};
 declare const DEFAULT_FILLER: undefined;
-declare function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<unknown>;
+declare function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strings' | 'reject-strings'): IteratorRecord;
 declare function isObject(obj: unknown): obj is Object;
-declare function getOwnEnumerablePropertyKeys<O extends Object>(obj: O): Array<keyof O>;
 interface ZipShortestOptions {
     mode?: 'shortest';
 }
@@ -24,29 +23,32 @@ type NamedIteratees<P extends {
 type IterateesOfTupleOfIterables<T extends readonly IteratorOrIterable<unknown>[]> = {
     -readonly [K in keyof T]: Iteratee<T[K]>;
 };
+type IteratorRecord = {
+    iter: Iterator<unknown>;
+    next: Iterator<unknown>['next'];
+    done: boolean;
+};
 type Mode = 'shortest' | 'longest' | 'strict';
 declare function getMode(options: ZipOptions<any>): Mode;
+declare function getPadding(options: ZipLongestOptions<any>): Object | undefined;
+declare function IteratorCloseAll(iters: Array<{
+    done: boolean;
+    iter: {
+        return?: () => void;
+    };
+} | {
+    done: true;
+}>, error?: {
+    error: unknown;
+}, skipIndex?: number): void;
+declare let IteratorHelperProto: any;
+declare function wrapForIteratorHelperBehavior<T, S>(input: IterableIterator<Array<T>>, underlyingIterators: Array<IteratorRecord>, finalize: (vals: Array<T>) => S): IterableIterator<S>;
 declare function zip(p: readonly [], o?: ZipOptions<Iterable<unknown>>): IterableIterator<never>;
 declare function zip<P extends readonly IteratorOrIterable<unknown>[] | readonly []>(p: P, o?: ZipOptions<IterateesOfTupleOfIterables<P>>): IterableIterator<IterateesOfTupleOfIterables<P>>;
 declare function zip<P extends Iterable<IteratorOrIterable<unknown>>>(p: P, o?: ZipOptions<Iteratee<P>>): IterableIterator<Array<Iteratee<Iteratee<P>>>>;
 declare function zipKeyed<P extends {
     readonly [item: PropertyKey]: IteratorOrIterable<unknown>;
 }>(p: P, o?: ZipOptions<NamedIteratees<P>>): IterableIterator<NamedIteratees<P>>;
-type Nexts = Array<{
-    done: false;
-    next: () => {
-        done?: boolean;
-        value?: unknown;
-    };
-} | {
+declare function zipCore(iters: Array<IteratorRecord | {
     done: true;
-    next?: void;
-}>;
-declare function getResults(iters: Array<Iterator<unknown>>, nexts: Nexts): Array<{
-    done: true;
-    value?: undefined;
-} | {
-    done: false;
-    value: unknown;
-}>;
-declare function zipCore(iters: Array<Iterator<unknown>>, mode: 'shortest' | 'longest' | 'strict', padding: Array<unknown>): Generator<unknown[], void, unknown>;
+}>, mode: 'shortest' | 'longest' | 'strict', padding: Array<unknown>): Generator<unknown[], void, unknown>;
