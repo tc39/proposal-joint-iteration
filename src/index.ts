@@ -54,7 +54,7 @@ function getMode(options: ZipOptions<any>): Mode {
     mode = 'shortest';
   }
   if (mode !== 'shortest' && mode !== 'longest' && mode !== 'strict') {
-    throw new TypeError(`invalid mode`);
+    throw new TypeError('invalid mode');
   }
   return mode as Mode;
 }
