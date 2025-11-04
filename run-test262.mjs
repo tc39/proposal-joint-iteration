@@ -10,11 +10,12 @@ let harness =
   fs.readFileSync('lib/index.js', 'utf8') +
 [
   '../test262/harness/assert.js',
-  '../test262/harness/propertyHelper.js',
-  '../test262/harness/isConstructor.js',
   '../test262/harness/compareArray.js',
-  '../test262/harness/testTypedArray.js',
+  '../test262/harness/isConstructor.js',
+  '../test262/harness/iteratorZipUtils.js',
+  '../test262/harness/propertyHelper.js',
   '../test262/harness/proxyTrapsHelper.js',
+  '../test262/harness/testTypedArray.js',
   '../test262/harness/wellKnownIntrinsicObjects.js',
 ].map(x => fs.readFileSync(x, 'utf8')).join('\n') + `
 var $DETACHBUFFER = buff => buff.transfer();
