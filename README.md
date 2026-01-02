@@ -21,6 +21,7 @@ variadic `map`.
 
 ## presentations to committee
 
+- [November 2025](https://docs.google.com/presentation/d/1ZB0Gf74zj_5ezC_iLfTlICDp862dLRdGdexHmekhJmg)
 - [June 2024](https://docs.google.com/presentation/d/1Qj5h6MajJnji1obZsXea_cUgfwxur-yT6v-8rBTLqtg)
 - [January 2024](https://docs.google.com/presentation/d/150lLig7sNDr173RVzRgNRKrrUBKzKPImrHjGnfrETzQ)
 - [November 2023](https://docs.google.com/presentation/d/1sgqXgWBsDF0S43wVuFgIyOC8Y3AMFt1qxBIFbzEq9Vg)
