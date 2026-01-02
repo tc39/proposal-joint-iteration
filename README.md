@@ -3,7 +3,7 @@ Joint Iteration
 
 A TC39 proposal to synchronise the advancement of multiple iterators, often called `zip`.
 
-**Stage:** 2.7. Further advancement is dependent on [writing test262 tests](https://github.com/tc39/test262/issues/4112#issuecomment-2415235086).
+**Stage:** 3. Further advancement is dependent on 2 or more shipping implementations.
 
 **Demo:** https://tc39.es/proposal-joint-iteration/demo/
 
