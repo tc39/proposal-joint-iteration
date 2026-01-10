@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "spec": "ecmarkup --mark-effects --load-biblio @tc39/ecma262-biblio --load-biblio ./proposal-iterator-helpers-biblio.json --write-biblio biblio.json --lint-spec --strict spec.emu --assets-dir dist dist/index.html",
+    "spec": "ecmarkup --mark-effects --load-biblio @tc39/ecma262-biblio --write-biblio biblio.json --lint-spec --strict spec.emu --assets-dir dist dist/index.html",
     "test": "node --test"
   },
   "repository": {
@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/tc39/proposal-joint-iteration#readme",
   "devDependencies": {
-    "@tc39/ecma262-biblio": "2.1.2775",
-    "ecmarkup": "20.0.0",
-    "typescript": "5.2.2"
+    "@tc39/ecma262-biblio": "2.1.3014",
+    "ecmarkup": "22.0.0",
+    "typescript": "5.9.3"
   }
 }
