@@ -172,22 +172,6 @@ copyright: false
   </emu-alg>
 </emu-clause>
 
-<emu-clause id="sec-closeall" type="abstract operation">
-  <h1>
-    IteratorCloseAll (
-      _iters_: a List of Iterator Records,
-      _completion_: a Completion Record,
-    ): a Completion Record
-  </h1>
-  <dl class="header">
-  </dl>
-  <emu-alg>
-    1. For each element _iter_ of _iters_, in reverse List order, do
-      1. Set _completion_ to Completion(IteratorClose(_iter_, _completion_)).
-    1. Return ? _completion_.
-  </emu-alg>
-</emu-clause>
-
 <emu-clause id="sec-ifabruptcloseiterators" aoid="IfAbruptCloseIterators">
   <h1>IfAbruptCloseIterators ( _value_, _iteratorRecords_ )</h1>
   <p>IfAbruptCloseIterators is a shorthand for a sequence of algorithm steps that use a list of Iterator Records. An algorithm step of the form:</p>
@@ -201,54 +185,3 @@ copyright: false
     1. Else, set _value_ to _value_.[[Value]].
   </emu-alg>
 </emu-clause>
-
-<emu-clause id="sec-%iteratorhelperprototype%.return">
-  <h1>%IteratorHelperPrototype%.return ( )</h1>
-  <emu-alg>
-    1. Let _O_ be *this* value.
-    1. <del>Perform ? RequireInternalSlot(_O_, [[UnderlyingIterator]]).</del>
-    1. <ins>Perform ? RequireInternalSlot(_O_, [[UnderlyingIterators]]).</ins>
-    1. Assert: _O_ has a [[GeneratorState]] slot.
-    1. If _O_.[[GeneratorState]] is ~suspended-start~, then
-      1. Set _O_.[[GeneratorState]] to ~completed~.
-      1. NOTE: Once a generator enters the completed state it never leaves it and its associated execution context is never resumed. Any execution state associated with _O_ can be discarded at this point.
-      1. <del>Perform ? IteratorClose(_O_.[[UnderlyingIterator]], ReturnCompletion(*undefined*)).</del>
-      1. <ins>Perform ? IteratorCloseAll(_O_.[[UnderlyingIterators]], ReturnCompletion(*undefined*)).</ins>
-      1. Return CreateIteratorResultObject(*undefined*, *true*).
-    1. Let _C_ be Completion { [[Type]]: ~return~, [[Value]]: *undefined*, [[Target]]: ~empty~ }.
-    1. Return ? GeneratorResumeAbrupt(_O_, _C_, *"Iterator Helper"*).
-  </emu-alg>
-</emu-clause>
-
-<emu-clause id="stolen-infra">
-  <h1>Infra</h1>
-
-  <emu-note>
-    <p>
-      These AOs are taken from ecma402 and are listed here because they will need to move to ecma262. This is the first API in ecma262 that will take an options bag.
-    </p>
-  </emu-note>
-
-  <emu-clause id="sec-getoptionsobject" type="abstract operation">
-    <h1>
-      GetOptionsObject (
-        _options_: an ECMAScript language value,
-      ): either a normal completion containing an Object or a throw completion
-    </h1>
-    <dl class="header">
-      <dt>description</dt>
-      <dd>
-        It returns an Object suitable for use with GetOption, either _options_ itself or a default empty Object.
-        It throws a *TypeError* if _options_ is not *undefined* and not an Object.
-      </dd>
-    </dl>
-    <emu-alg>
-      1. If _options_ is *undefined*, then
-        1. Return OrdinaryObjectCreate(*null*).
-      1. If _options_ is an Object, then
-        1. Return _options_.
-      1. Throw a *TypeError* exception.
-    </emu-alg>
-  </emu-clause>
-</emu-clause>
-
