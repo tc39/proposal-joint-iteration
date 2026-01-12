@@ -404,10 +404,15 @@ function Menu() {
 
 Menu.prototype.documentKeydown = function (e) {
   e.stopPropagation();
-  if (e.keyCode === 80) {
+  if (e.key === 'p') {
     this.togglePinEntry();
-  } else if (e.keyCode >= 48 && e.keyCode < 58) {
+  } else if ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(parseInt(e.key))) {
     this.selectPin((e.keyCode - 9) % 10);
+  } else if (e.key === '`') {
+    const hash = document.location.hash;
+    const id = decodeURIComponent(hash.slice(1));
+    const target = document.getElementById(id);
+    target?.scrollIntoView(true);
   }
 };
 
@@ -1605,5 +1610,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{"sec-iterator.zip":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_5","_ref_6"],"sec-iterator.zipkeyed":["_ref_7","_ref_8","_ref_9","_ref_10","_ref_11","_ref_12"],"sec-IteratorZip":["_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18"],"sec-ifabruptcloseiterators":["_ref_19","_ref_20"],"sec-%iteratorhelperprototype%.return":["_ref_21"]},"entries":[{"type":"clause","id":"sec-iterator.zip","title":"Iterator.zip ( iterables [ , options ] )","titleHTML":"Iterator.zip ( <var>iterables</var> [ , <var>options</var> ] )","number":"1"},{"type":"clause","id":"sec-iterator.zipkeyed","title":"Iterator.zipKeyed ( iterables [ , options ] )","titleHTML":"Iterator.zipKeyed ( <var>iterables</var> [ , <var>options</var> ] )","number":"2"},{"type":"op","aoid":"IteratorZip","refId":"sec-IteratorZip"},{"type":"clause","id":"sec-IteratorZip","title":"IteratorZip ( iters, mode, padding, finishResults )","titleHTML":"IteratorZip ( <var>iters</var>, <var>mode</var>, <var>padding</var>, <var>finishResults</var> )","number":"3","referencingIds":["_ref_6","_ref_12"]},{"type":"op","aoid":"IteratorCloseAll","refId":"sec-closeall"},{"type":"clause","id":"sec-closeall","title":"IteratorCloseAll ( iters, completion )","titleHTML":"IteratorCloseAll ( <var>iters</var>, <var>completion</var> )","number":"4","referencingIds":["_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_20","_ref_21"]},{"type":"op","aoid":"IfAbruptCloseIterators","refId":"sec-ifabruptcloseiterators"},{"type":"clause","id":"sec-ifabruptcloseiterators","title":"IfAbruptCloseIterators ( value, iteratorRecords )","titleHTML":"IfAbruptCloseIterators ( <var>value</var>, <var>iteratorRecords</var> )","number":"5","referencingIds":["_ref_1","_ref_2","_ref_3","_ref_4","_ref_5","_ref_8","_ref_9","_ref_10","_ref_11","_ref_19"]},{"type":"clause","id":"sec-%iteratorhelperprototype%.return","titleHTML":"%IteratorHelperPrototype%.return ( )","number":"6"},{"type":"op","aoid":"GetOptionsObject","refId":"sec-getoptionsobject"},{"type":"clause","id":"sec-getoptionsobject","title":"GetOptionsObject ( options )","titleHTML":"GetOptionsObject ( <var>options</var> )","number":"7.1","referencingIds":["_ref_0","_ref_7"]},{"type":"clause","id":"stolen-infra","titleHTML":"Infra","number":"7"}]}`);
+let biblio = JSON.parse(`{"refsByClause":{"sec-iterator.zip":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_5"],"sec-iterator.zipkeyed":["_ref_6","_ref_7","_ref_8","_ref_9","_ref_10"],"sec-ifabruptcloseiterators":["_ref_11"]},"entries":[{"type":"clause","id":"sec-iterator.zip","title":"Iterator.zip ( iterables [ , options ] )","titleHTML":"Iterator.zip ( <var>iterables</var> [ , <var>options</var> ] )","number":"1"},{"type":"clause","id":"sec-iterator.zipkeyed","title":"Iterator.zipKeyed ( iterables [ , options ] )","titleHTML":"Iterator.zipKeyed ( <var>iterables</var> [ , <var>options</var> ] )","number":"2"},{"type":"op","aoid":"IteratorZip","refId":"sec-IteratorZip"},{"type":"clause","id":"sec-IteratorZip","title":"IteratorZip ( iters, mode, padding, finishResults )","titleHTML":"IteratorZip ( <var>iters</var>, <var>mode</var>, <var>padding</var>, <var>finishResults</var> )","number":"3","referencingIds":["_ref_5","_ref_10"]},{"type":"op","aoid":"IfAbruptCloseIterators","refId":"sec-ifabruptcloseiterators"},{"type":"clause","id":"sec-ifabruptcloseiterators","title":"IfAbruptCloseIterators ( value, iteratorRecords )","titleHTML":"IfAbruptCloseIterators ( <var>value</var>, <var>iteratorRecords</var> )","number":"4","referencingIds":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_6","_ref_7","_ref_8","_ref_9","_ref_11"]}]}`);
 ;let usesMultipage = false
