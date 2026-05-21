@@ -138,6 +138,7 @@ Produces:
 | iter-tools                 | `zip`      | `zipAll`                  |            |            |           | yes        | yes      | yes, empty |
 | iterablefu                 | `zip`      | `zipAll`                  |            |            |           | yes        | yes      | yes, empty |
 | iterare                    | `zip`      |                           |            |            |           |            |          |            |
+| itertools                  | `izip`     | `izipLongest`             |            |            |           | yes        | yes      |            |
 | itertools-ts               | `zip`      | `zipFilled`, `zipLongest` |            | `zipEqual` |           | yes        | yes      | yes, empty |
 | ixjs                       | `zip`      |                           |            |            |           | yes        | yes      | yes, empty |
 | lodash                     |            | `zip`                     |            |            | `zipWith` | yes        | yes      | yes, empty |
