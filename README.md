@@ -3,7 +3,7 @@ Joint Iteration
 
 A TC39 proposal to synchronise the advancement of multiple iterators, often called `zip`.
 
-**Stage:** 3. Further advancement is dependent on 2 or more shipping implementations.
+**Stage:** 4. See [tc39/ecma262#3802](https://github.com/tc39/ecma262/pull/3802) for the integration PR.
 
 **Demo:** https://tc39.es/proposal-joint-iteration/demo/
 
@@ -21,6 +21,7 @@ variadic `map`.
 
 ## presentations to committee
 
+- [May 2026](https://docs.google.com/presentation/d/1KW2u1CeciwdoZjOnL5jb1pJxJUcgNjPeXsj5oVoaMxo)
 - [November 2025](https://docs.google.com/presentation/d/1ZB0Gf74zj_5ezC_iLfTlICDp862dLRdGdexHmekhJmg)
 - [June 2024](https://docs.google.com/presentation/d/1Qj5h6MajJnji1obZsXea_cUgfwxur-yT6v-8rBTLqtg)
 - [January 2024](https://docs.google.com/presentation/d/150lLig7sNDr173RVzRgNRKrrUBKzKPImrHjGnfrETzQ)
